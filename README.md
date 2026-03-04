@@ -14,7 +14,7 @@
 
 ## ✨ Overview
 
-**Parrotnest** to nowoczesna platforma komunikacyjna stworzona z myślą o społecznościach szkolnych, grupach znajomych i lokalnych sieciach LAN. Wersja **V10 "Zajebiste Edition"** to potężny skok jakościowy, wprowadzający zaawansowaną dostępność, nowe motywy oraz... ukryte gniazda pełne niespodzianek. 🦜✨
+**Parrotnest** to nowoczesna platforma komunikacyjna stworzona z myślą o społecznościach szkolnych, grupach znajomych i lokalnych sieciach LAN. Wersja **V10 "Coffe lake Edition"** to potężny skok jakościowy, wprowadzający zaawansowaną dostępność, nowe motywy oraz... ukryte gniazda pełne niespodzianek. 🦜✨
 
 System składa się z:
 - 🖥 **Windows Desktop Host** – powłoka WinForms zarządzająca serwerem.
