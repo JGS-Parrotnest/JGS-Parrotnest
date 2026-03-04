@@ -1,12 +1,12 @@
 <div align="center">
 
 # 🦜 Parrotnest V10
-**Modern Real‑Time Chat & Collaboration Platform**
+**Modern Real-Time Chat & Collaboration Platform**
 
 ![.NET](https://img.shields.io/badge/.NET-10.0-blueviolet?style=for-the-badge&logo=dotnet)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-SignalR-5C2D91?style=for-the-badge&logo=dotnet)
 ![SQLite](https://img.shields.io/badge/DB-SQLite-blue?style=for-the-badge&logo=sqlite)
-![Status](https://img.shields.io/badge/Version-V10.0_Coffe_Lake_Edition-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/Version-V10.0_Coffee_Lake_Edition-brightgreen?style=for-the-badge)
 
 </div>
 
@@ -14,109 +14,115 @@
 
 ## ✨ Overview
 
-**Parrotnest** to nowoczesna platforma komunikacyjna stworzona z myślą o społecznościach szkolnych, grupach znajomych i lokalnych sieciach LAN. Wersja **V10 "Coffe lake Edition"** to potężny skok jakościowy, wprowadzający zaawansowaną dostępność, nowe motywy oraz... ukryte gniazda pełne niespodzianek. 🦜✨
+**Parrotnest** is a modern communication platform designed for school communities, groups of friends, and local LAN networks.  
+Version **V10 "Coffee Lake Edition"** represents a major quality leap, introducing advanced accessibility features, new themes, and... hidden nests full of surprises. 🦜✨
 
-System składa się z:
-- 🖥 **Windows Desktop Host** – powłoka WinForms zarządzająca serwerem.
-- 🚀 **ASP.NET Core API** – szybki backend z SignalR do komunikacji w czasie rzeczywistym.
-- 🌐 **Web Client** – nowoczesny interfejs PHP + Vanilla JS z pełną responsywnością.
-- 📦 **Desktop Installer** – dedykowany instalator dla łatwego wdrożenia.
+The system consists of:
 
----
-
-## 🚀 Kluczowe Funkcje
-
-### 💬 Komunikacja
-- **Kanał Ogólny** – globalna przestrzeń dla wszystkich użytkowników.
-- **Wiadomości Prywatne** – bezpieczny czat 1-na-1.
-- **Grupy** – twórz własne pokoje, zapraszaj znajomych i zarządzaj członkami.
-- **Bogate wiadomości** – obsługa obrazów, filmów wideo, odpowiedzi (replies) oraz reakcji emoji.
-
-### 🎨 Personalizacja & UI
-- **Wiele motywów** – wybierz spośród: *Original, Dark, Classic, Neon, Forest* lub *Kontrast*.
-- **Dynamiczna wielkość tekstu** – od małego po X-Duży.
-- **Tryb prostego tekstu** – dla tych, którzy cenią minimalizm.
-- **Powiadomienia** – pełna kontrola nad głośnością i wybór własnych dźwięków (`1.mp3`, `2.mp3`, `3.mp3`).
-
-### 🛡 Administracja
-- Pełny panel zarządzania użytkownikami (banowanie, wyciszanie, usuwanie kont).
-- Logi akcji administracyjnych – pełna transparentność działań.
-- Narzędzia diagnostyczne API.
+- 🖥 **Windows Desktop Host** – a WinForms shell responsible for managing the server.
+- 🚀 **ASP.NET Core API** – a fast backend powered by SignalR for real-time communication.
+- 🌐 **Web Client** – a modern PHP + Vanilla JS interface with full responsiveness.
+- 📦 **Desktop Installer** – a dedicated installer for easy deployment.
 
 ---
 
-## 🌈 Dostępność (Accessibility)
-Parrotnest V10 stawia na inkluzywność. Nowy panel dostępności oferuje:
-- **Filtry dla daltonistów** – Protanopia, Deuteranopia, Tritanopia oraz Achromatopsja.
-- **Regulacja kontrastu** – od 50% do 200%.
-- **Skalowanie czcionek** – dla lepszej czytelności.
-- **Kontrola animacji** – możliwość wyłączenia zbędnych efektów wizualnych.
+## 🚀 Key Features
+
+### 💬 Communication
+- **Global Channel** – a shared space for all users.
+- **Private Messages** – secure 1-on-1 chat.
+- **Groups** – create custom rooms, invite friends, and manage members.
+- **Rich Messages** – support for images, videos, replies, and emoji reactions.
+
+### 🎨 Personalization & UI
+- **Multiple Themes** – choose from: *Original, Dark, Classic, Neon, Forest,* or *High Contrast*.
+- **Dynamic Text Size** – from small to Extra Large.
+- **Plain Text Mode** – for users who prefer minimalism.
+- **Notifications** – full volume control and customizable sounds (`1.mp3`, `2.mp3`, `3.mp3`).
+
+### 🛡 Administration
+- Full user management panel (ban, mute, delete accounts).
+- Administrative action logs – complete operational transparency.
+- API diagnostic tools.
+
+---
+
+## 🦮 Accessibility
+
+Parrotnest V10 focuses on inclusivity. The new accessibility panel offers:
+
+- **Colorblind Filters** – Protanopia, Deuteranopia, Tritanopia, and Achromatopsia.
+- **Contrast Adjustment** – from 50% to 200%.
+- **Font Scaling** – for improved readability.
+- **Animation Control** – option to disable unnecessary visual effects.
 
 ---
 
 ## 🎁 Easter Eggs & Secret Menu
-Odkryj tajne funkcje ukryte w "Gnieździe Papugi":
-- 🌈 **Rainbow Mode** – poczuj magię kolorów w całym interfejsie.
-- 🌀 **Spin Mode** – zakręć swoimi znajomymi (dosłownie!).
-- 🔥 **HELL MODE** – uruchamia wbudowaną wersję legendarnego **DOOM** bezpośrednio w przeglądarce.
-- 🐻 **FNAF 1 Launcher** – potrzebujesz przerwy? Uruchom Five Nights at Freddy's 1 z poziomu czatu.
-- 🦜 **Logo Parrot** – kliknij logo, aby usłyszeć głos naszej maskotki!
+
+Discover hidden features inside the "Parrot’s Nest":
+
+- 🌈 **Rainbow Mode** – experience colorful magic across the entire interface.
+- 🌀 **Spin Mode** – spin your friends around (literally!).
+- 🔥 **HELL MODE** – launches a built-in version of the legendary **DOOM** directly in your browser.
+- 🐻 **FNAF 1 Launcher** – need a break? Launch Five Nights at Freddy's 1 directly from the chat.
+- 🦜 **Parrot Logo** – click the logo to hear the voice of our mascot!
 
 ---
 
-## 🛠 Stack Technologiczny
+## 🛠 Technology Stack
 
 - **Backend:** .NET 10.0, ASP.NET Core, SignalR, Entity Framework Core (SQLite).
-- **Frontend:** PHP, Vanilla JavaScript, CSS (częściowo generowany przez `CssGen`).
-- **Narzędzia:**
-  - `CssGen` – autorskie narzędzie w C# do generowania responsywnych arkuszy stylów.
-  - `ParrotnestDesktopInstaller` – dedykowana aplikacja do instalacji klienta.
-  - `DosBox integration` – dla trybu Hell Mode (Doom).
+- **Frontend:** PHP, Vanilla JavaScript, CSS (partially generated using `CssGen`).
+- **Tools:**
+  - `CssGen` – a custom C# tool for generating responsive stylesheets (author: Hnato).
+  - `ParrotnestDesktopInstaller` – dedicated desktop client installer.
+  - `DosBox integration` – powers Hell Mode (Doom).
 
 ---
 
-## 📂 Struktura Projektu
+## 📂 Project Structure
 
 ```text
 Parrotnest/
 ├─ Client/                  # Frontend (PHP, JS, CSS, Assets)
-│  ├─ DOOM/                 # Wbudowany Doom (Hell Mode)
+│  ├─ DOOM/                 # Embedded Doom (Hell Mode)
 │  ├─ UrUrUr/               # FNAF 1 Launcher
-│  ├─ CssGen/               # Generator CSS (C#)
-│  ├─ notificationsounds/   # Customowe dźwięki powiadomień
-│  └─ uploads/              # Pliki użytkowników (avatary, obrazy, wideo)
+│  ├─ CssGen/               # CSS Generator (C#)
+│  ├─ notificationsounds/   # Custom notification sounds
+│  └─ uploads/              # User files (avatars, images, videos)
 ├─ Server/                  # Backend C# (ASP.NET Core + WinForms)
-│  ├─ Controllers/          # Logika API
-│  ├─ Hubs/                 # Komunikacja SignalR
-│  └─ Models/               # Modele bazy danych EF Core
-└─ ParrotnestDesktopInstaller/ # Projekt instalatora desktopowego
+│  ├─ Controllers/          # API logic
+│  ├─ Hubs/                 # SignalR communication
+│  └─ Models/               # EF Core database models
+└─ ParrotnestDesktopInstaller/ # Desktop installer project
 ```
 
 ---
 
-## ⚙️ Uruchomienie (Development)
+## ⚙️ Running (Development)
 
-1. **Wymagania:** Windows 10/11, .NET SDK (net10.0).
+1. **Requirements:** Windows 10/11, .NET SDK (net10.0).
 2. **Build:** 
    ```bash
    dotnet build .\Server\ParrotnestServer.csproj -c Debug
    ```
-3. **Start:** Uruchom `ParrotnestServer.exe`.
-   - Kliknij **"Start Server"**, aby odpalić backend.
-   - Kliknij **"Otwórz App"**, aby przejść do panelu logowania.
+3. **Start:** Run `ParrotnestServer.exe`.
+   - Click **"Start Server"** to launch the backend.
+   - Click **"Open App"** to open the login panel.
 
 ---
 
 ## 👑 JGS Team (Creators)
 
-Projekt rozwijany z pasją (i lekkim brakiem snu) przez zespół **JGS**:
+The project is passionately developed by the **JGS Team**:
 
-- 👨‍💻 **Adam Hnatko ("Hnato")** – [STATUS: URLOPIK] Główny architekt, który napracował się na święta i teraz zasłużenie odpoczywa.
-- 🛠 **Igor Kondraciuk ("Flubi3604")** – [STATUS: RIPDB] Mistrz bazy danych pracujący na 25-godzinne zmiany (nawet jeśli baza czasem stawia opór).
-- 🐍 **Jakub Fedorowicz ("John0G1thub")** – [STATUS: FUCKOFF] Człowiek od zadań specjalnych, który nie bierze odpowiedzialności za zakrzywienie czasu przez resztę zespołu.
+- 👨‍💻 Adam Hnatko ("Hnato")
+- 🛠 Igor Kondraciuk ("Flubi3604")
+- 🐍 Jakub Fedorowicz ("John0G1thub")
 
 ---
-<div align="center">
-Built with ❤️ for classrooms and small communities.  
+
+<div align="center"> 
 &copy; 2026 Parrotnest - JGS Team.
 </div>
