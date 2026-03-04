@@ -1,100 +1,67 @@
-﻿[2026-02-14 19:49:06.304] server_start build=20260214-184906 base=C:\Users\user\Music\Komunikator JGS\Alfa v8\
-[2026-02-14 20:03:16.236] GET /api/Users/all status=200 ms=12 aborted_before=False aborted_after=False
-[2026-02-14 20:03:34.549] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
-[2026-02-14 20:03:41.191] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:03:53.398] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:03:57.396] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:04:12.401] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:04:29.760] GET /api/Users/all status=200 ms=9 aborted_before=False aborted_after=False
-[2026-02-14 20:04:47.951] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:10:43.635] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:11:29.256] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:11:46.396] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:18:28.491] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:18:45.412] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:19:51.481] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:20:12.999] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:20:28.272] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:20:46.470] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:21:04.682] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:21:22.901] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:21:41.096] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:21:59.304] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:22:17.510] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:27:16.840] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:43:57.733] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:44:14.750] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:44:32.954] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:44:51.177] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:45:09.370] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:45:27.594] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:45:45.795] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
-[2026-02-14 20:46:03.999] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:46:22.204] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:46:40.414] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:46:58.623] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:47:16.824] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:47:35.035] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:47:53.245] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:48:11.448] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:48:17.260] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:48:34.363] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:48:52.576] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:49:10.790] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:49:28.989] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:49:47.193] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:50:05.406] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:50:17.332] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:50:34.332] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:50:52.541] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:52:06.118] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 20:55:55.325] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:04:02.409] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:04:19.728] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:04:37.940] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:04:56.136] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:05:14.349] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:05:32.548] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:05:50.756] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:06:08.962] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:09:37.385] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:09:54.464] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:10:12.675] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:11:06.490] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:11:26.869] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:11:43.707] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:11:50.920] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:12:01.922] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:12:20.121] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:12:38.337] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:14:00.771] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:14:21.502] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:14:34.996] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:14:39.716] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:14:57.922] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:15:16.131] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:15:34.340] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:15:52.542] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:16:10.749] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:16:28.964] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:16:47.161] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:17:05.367] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:17:23.573] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:17:41.790] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:17:59.995] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:18:18.194] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:18:36.407] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:18:54.175] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:35:22.519] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:35:31.258] POST /api/admin/mute/1 status=500 ms=3 aborted_before=False aborted_after=False ex=InvalidOperationException msg=No authentication handler is registered for the scheme 'Nie można wyciszać administratora.'. The registered schemes are: Bearer. Did you forget to call AddAuthentication().Add[SomeAuthHandler]("Nie można wyciszać administratora.",...)?
-[2026-02-14 21:35:54.097] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:38:41.544] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:39:18.493] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 21:49:13.781] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 22:06:52.990] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 22:07:25.327] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 22:07:44.190] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 22:08:02.399] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 22:27:44.379] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 22:27:54.351] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
-[2026-02-14 23:40:40.071] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+﻿[2026-02-19 19:54:44.648] server_start build=20260219-185444 base=C:\Users\Użytkownik\Documents\trae_projects\Alfa v8\
+[2026-02-19 19:54:59.616] GET /api/Users/all status=200 ms=10 aborted_before=False aborted_after=False
+[2026-02-22 20:29:57.627] server_start build=20260222-192957 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 20:31:28.860] GET /api/Users/all status=200 ms=18 aborted_before=False aborted_after=False
+[2026-02-22 20:31:48.410] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-02-22 20:32:45.505] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:33:06.080] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:33:24.093] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:33:42.091] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:34:00.089] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:34:18.087] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-02-22 20:35:17.898] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:35:43.570] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:35:59.129] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:36:18.087] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-02-22 20:37:00.511] server_start build=20260222-193700 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 20:37:02.775] GET /api/Users/all status=200 ms=66 aborted_before=False aborted_after=False
+[2026-02-22 20:37:10.299] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-02-22 20:39:28.050] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-02-22 20:53:10.243] server_start build=20260222-195310 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 20:53:36.678] server_start build=20260222-195336 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 20:59:55.930] server_start build=20260222-195955 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 21:04:52.783] server_start build=20260222-200452 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 21:07:52.805] server_start build=20260222-200752 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 21:09:04.058] server_start build=20260222-200904 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 21:11:30.156] server_start build=20260222-201130 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 21:12:23.262] server_start build=20260222-201223 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-02-22 21:12:33.987] server_start build=20260222-201233 base=C:\Users\Igor\Downloads\PN_Beta\PN_Beta\
+[2026-03-02 11:59:05.918] server_start build=20260302-105905 base=E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-02 12:10:51.499] GET /ParrotnestDesktopInstaller.exe status=500 ms=576 aborted_before=False aborted_after=False ex=IOException msg=The process cannot access the file 'E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\Client\ParrotnestDesktopInstaller.exe' because it is being used by another process.
+[2026-03-02 15:35:13.074] server_start build=20260302-143513 base=E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-02 18:02:50.826] server_start build=20260302-170250 base=E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-02 18:05:15.175] server_start build=20260302-170515 base=E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-02 18:07:09.651] server_start build=20260302-170709 base=E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-03 07:11:53.269] server_start build=20260303-061153 base=F:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-03 08:32:55.167] server_start build=20260303-073255 base=F:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\
+[2026-03-03 08:37:33.826] GET /api/Users/all status=200 ms=7 aborted_before=False aborted_after=False
+[2026-03-04 21:07:02.107] server_start build=20260304-200702 base=C:\Users\user\Music\Komunikator JGS\V 10\
+[2026-03-04 21:11:13.361] GET /api/Users/all status=200 ms=24 aborted_before=False aborted_after=False
+[2026-03-04 21:26:14.858] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 21:46:18.164] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-03-04 22:02:47.848] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:02:55.719] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:03:05.610] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:03:10.906] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-03-04 22:03:23.604] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:03:42.595] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:04:26.623] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:04:55.013] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:14:20.204] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:27:26.364] server_start build=20260304-212726 base=C:\Users\user\Music\Komunikator JGS\V 10\
+[2026-03-04 22:56:52.980] GET /api/Users/all status=200 ms=19 aborted_before=False aborted_after=False
+[2026-03-04 22:57:13.128] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:57:31.647] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-03-04 22:57:46.099] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:57:59.637] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:58:17.491] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:58:20.938] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-03-04 22:58:34.639] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:58:49.731] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:59:27.638] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:59:34.591] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 22:59:59.773] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 23:00:12.552] GET /api/Users/all status=200 ms=2 aborted_before=False aborted_after=False
+[2026-03-04 23:00:20.849] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False
+[2026-03-04 23:00:28.648] GET /api/Users/all status=200 ms=1 aborted_before=False aborted_after=False
+[2026-03-04 23:32:55.685] GET /api/Users/all status=200 ms=0 aborted_before=False aborted_after=False

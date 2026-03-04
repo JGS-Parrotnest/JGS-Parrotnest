@@ -91,7 +91,70 @@ html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
 }
 body.chat-open .sidebar { transform: translateX(-20%); opacity: 0.5; pointer-events: none; }
 body.chat-open .chat-area { transform: translateX(0); }
-/* 4. MOBILE COMPONENTS */
+/* 5. DOWNLOAD PAGE */
+.fixed-nav {
+    padding: 15px !important;
+}
+
+.fixed-nav .logo-area img {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.fixed-nav h1 {
+    font-size: 1.2rem !important;
+}
+
+.expanded-card {
+    padding-top: 40px !important;
+    max-height: 400px !important;
+    width: 100% !important;
+    max-width: 1000px !important;
+}
+
+.os-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px !important;
+    width: 100% !important;
+    overflow-x: auto !important; /* Pozwala na przewijanie zamiast zawijania */
+}
+
+.os-tile-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px !important;
+    gap: 5px !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    width: 100px !important;
+    height: 140px !important;
+    flex: 0 0 100px !important;
+}
+
+.os-card-icon {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 10px !important;
+}
+
+.os-icon-img-single {
+    width: 35px !important;
+    height: 35px !important;
+    filter: brightness(0) invert(1) !important;
+}
+
+.os-tile-label {
+    font-size: 0.65rem !important;
+    white-space: nowrap !important;
+}
 .mobile-back-btn {
     display: flex !important;
     align-items: center;
@@ -140,9 +203,9 @@ body.chat-open .chat-area { transform: translateX(0); }
 }
 .conversation-sidebar.open { right: 0 !important; }
 .conversation-sidebar-header { padding: 10px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; position: relative; }
-.conversation-sidebar-header .info-card { width: 100%; margin-bottom: 0; background: transparent; border: none; padding: 10px 0; }
-.conversation-sidebar-header .info-card .avatar-large { width: 60px; height: 60px; font-size: 1.8rem; }
-.conversation-sidebar-header .info-card h2 { font-size: 1.1rem; }
+.conversation-sidebar-header .info-card { width: 100%; margin-bottom: 0; background: transparent; border: none; padding: 15px 0; }
+.conversation-sidebar-header .info-card .avatar-large { width: 80px; height: 80px; font-size: 2.2rem; }
+.conversation-sidebar-header .info-card h2 { font-size: 1.4rem; }
 .conversation-sidebar-body { flex: 1; overflow-y: auto; padding: 15px; padding-top: 10px; }
 .admin-controls { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
 .btn-sidebar-action { width: 100%; padding: 12px; text-align: left; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.05); border: none; border-radius: 8px; color: var(--text-main); }

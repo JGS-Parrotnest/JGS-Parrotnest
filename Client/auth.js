@@ -41,9 +41,13 @@ window.API_URL = API_URL;
 if (isLocal && storedBase && storedBase.includes(':6070')) {
     try {
         const controller = new AbortController();
-        setTimeout(() => controller.abort(), 800);
+        const timeoutId = setTimeout(() => controller.abort(), 1000);
         fetch(`${API_URL}/diag/build`, { signal: controller.signal })
-            .catch(() => {
+            .then(() => clearTimeout(timeoutId))
+            .catch((err) => {
+                if (err.name === 'AbortError') {
+                    console.warn("Diagnostic build check timed out, resetting serverBase.");
+                }
                 localStorage.removeItem('serverBase');
                 window.location.reload();
             });

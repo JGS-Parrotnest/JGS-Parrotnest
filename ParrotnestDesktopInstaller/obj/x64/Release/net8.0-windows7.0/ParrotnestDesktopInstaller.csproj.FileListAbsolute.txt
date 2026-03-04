@@ -1,0 +1,14 @@
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\bin\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.exe
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\bin\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.deps.json
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\bin\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.runtimeconfig.json
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\bin\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.dll
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\bin\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.pdb
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.GeneratedMSBuildEditorConfig.editorconfig
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.AssemblyInfoInputs.cache
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.AssemblyInfo.cs
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.csproj.CoreCompileInputs.cache
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.dll
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\refint\ParrotnestDesktopInstaller.dll
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.pdb
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ParrotnestDesktopInstaller.genruntimeconfig.cache
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\obj\x64\Release\net8.0-windows7.0\ref\ParrotnestDesktopInstaller.dll

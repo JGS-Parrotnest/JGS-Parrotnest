@@ -1,0 +1,5 @@
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\ParrotnestDesktopInstaller.exe
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\ParrotnestDesktopInstaller.dll
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\ParrotnestDesktopInstaller.deps.json
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\ParrotnestDesktopInstaller.runtimeconfig.json
+E:\4k\Strony Internetowe\14 Parrotnest\PN_Release + Desktop app\ParrotnestDesktopInstaller\ParrotnestDesktopInstaller.pdb

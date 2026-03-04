@@ -33,6 +33,7 @@
     <link rel="icon" href="logo.png" type="image/png">
     <link rel="stylesheet" href="style.css?v=15">
     <link rel="stylesheet" href="mobile.css?v=3" media="(max-width: 768px)">
+    <link rel="stylesheet" href="accessibility.css?v=1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
@@ -115,6 +116,20 @@
     </script>
 </head>
 <body>
+    <!-- Accessibility Colorblind Filters -->
+    <svg style="display:none">
+        <defs>
+            <filter id="protanopia-filter">
+                <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0 0.558, 0.442, 0, 0, 0 0, 0.242, 0.758, 0, 0 0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="deuteranopia-filter">
+                <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0 0.7, 0.3, 0, 0, 0 0, 0.3, 0.7, 0, 0 0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="tritanopia-filter">
+                <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0 0, 0.433, 0.567, 0, 0 0, 0.475, 0.525, 0, 0 0, 0, 0, 1, 0" />
+            </filter>
+        </defs>
+    </svg>
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -200,7 +215,7 @@
             </div>
             <div id="reply-preview"></div>
             <form class="chat-input-area" id="messageForm">
-                <input type="file" id="imageInput" accept="*/*" style="display: none;">
+                <input type="file" id="imageInput" accept="image/*,video/*" style="display: none;">
                 <button type="button" class="btn-icon" id="attachButton" title="Załącz plik"><span class="material-symbols-outlined">attach_file</span></button>
                 <button type="button" class="btn-icon" id="emojiButton" title="Emoji"><span class="material-symbols-outlined">mood</span></button>
                 <div id="attachmentPreview" style="display: none; margin-right: 10px; color: var(--accent-green);"></div>
@@ -655,13 +670,18 @@
                                 <span class="toggle-slider"></span>
                             </div>
                         </label>
+                        <div style="margin-top: 10px;">
+                            <button type="button" class="btn-secondary" id="secretLaunchFNAF1" style="width:100%;">
+                                Uruchom Five Nights at Freddy's 1
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
                  <div class="settings-section" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
                     <h4>JGS Team</h4>
                     <div id="debugInfo" style="background: #111; padding: 15px; border-radius: 8px; color: #0f0; font-family: monospace; margin-top: 10px; font-size: 0.9rem; line-height: 1.6; border: 1px solid #333;">
-                        <div><strong>System:</strong> Parrotnest v8.6</div>
+                        <div><strong>System:</strong> Parrotnest v9.1 Release + Desktop Client</div>
                         <div><strong>Copyright:</strong> &copy; 2026 Parrotnest</div>
                         <div><strong>Made by:</strong> JGS team</div>
                     </div>
@@ -669,7 +689,7 @@
                         <div class="team-card" style="flex: 0 1 180px; background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; text-align: center;">
                             <img src="Igor.jpg" alt="Igor Kondraciuk" style="width: 100%; height: auto; display: block;">
                             <div style="padding: 10px; font-weight: 600;">Igor Kondraciuk</div>
-                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: RIPDB]<br> Kurna baza nie działa (włącza z program z folderu debug).</div>
+                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: RIPDB]<br> Kurna baza nie działa (włącza z program z folderu debug, pracuje na 25h zmiany).</div>
                         </div>
                         <div class="team-card team-card-center" style="flex: 0 1 210px; background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; text-align: center; transform: scale(1.06);">
                             <img src="Adam.jpg" alt="Adam Hnatko" style="width: 100%; height: auto; display: block;">
@@ -709,6 +729,47 @@
             border: 2px solid #555;
         }
 
+        /* Game Overlay (80% ekranu, wycentrowany, nad wszystkim) */
+        .game-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 11000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 2vw;
+        }
+        .game-overlay.show { display: flex; }
+        .game-overlay-inner {
+            position: relative;
+            width: 95vw;
+            height: 95vh;
+            max-width: 95vw;
+            max-height: 95vh;
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .game-overlay .modal-close {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 20px;
+            line-height: 32px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .game-overlay .modal-close:hover { background: rgba(255,255,255,0.2); }
+
         .toggle-slider:before {
             position: absolute;
             content: "";
@@ -738,6 +799,14 @@
         .team-grid .team-card-center { margin: 0 6px; }
     </style>
 
+    <!-- Game Overlay -->
+    <div id="gameOverlay" class="game-overlay">
+        <div class="game-overlay-inner">
+            <button class="modal-close" id="closeGameOverlay" title="Zamknij">×</button>
+            <iframe id="gameIframe" src="about:blank" allow="fullscreen; autoplay" allowfullscreen loading="eager" style="width:100%;height:100%;border:0;"></iframe>
+        </div>
+    </div>
+
     <div id="image-modal" class="image-modal">
         <span class="close-image-modal">&times;</span>
         <img class="image-modal-content" id="img-preview">
@@ -745,5 +814,50 @@
     </div>
     <script src="auth.js?v=9"></script>
     <script type="module" src="app.js?v=39"></script>
+    <div id="accessibility-container" class="accessibility-container">
+        <div id="accessibility-popout" class="accessibility-popout" role="dialog" aria-labelledby="acc-title" aria-hidden="true">
+            <div class="acc-header">
+                <h2 id="acc-title">Ustawienia dostępności</h2>
+                <button id="close-acc-popout" aria-label="Zamknij panel">&times;</button>
+            </div>
+            <div class="acc-body">
+                <!-- Kontrast -->
+                <div class="acc-option">
+                    <label for="acc-contrast">Kontrast: <span id="contrast-val">100</span>%</label>
+                    <input type="range" id="acc-contrast" min="50" max="200" value="100" step="10">
+                </div>
+                <!-- Czcionka -->
+                <div class="acc-option">
+                    <label for="acc-font-size">Wielkość czcionki: <span id="font-size-val">100</span>%</label>
+                    <input type="range" id="acc-font-size" min="100" max="200" value="100" step="10">
+                </div>
+                <!-- Daltonizm -->
+                <div class="acc-option">
+                    <label for="acc-colorblind">Tryb daltonizmu:</label>
+                    <select id="acc-colorblind">
+                        <option value="none">Brak</option>
+                        <option value="protanopia">Protanopia (brak czerwonego)</option>
+                        <option value="deuteranopia">Deuteranopia (brak zielonego)</option>
+                        <option value="tritanopia">Tritanopia (brak niebieskiego)</option>
+                        <option value="achromatopsia">Achromatopsja (czarno-biały)</option>
+                    </select>
+                </div>
+                <!-- Animacje -->
+                <div class="acc-option toggle-option">
+                    <label>Animacje:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="acc-animations" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <!-- Reset -->
+                <button id="acc-reset" class="acc-reset-btn">Przywróć domyślne</button>
+            </div>
+        </div>
+        <button id="accessibility-button" class="accessibility-button" aria-label="Ustawienia dostępności" aria-expanded="false" aria-controls="accessibility-popout">
+            <img src="accbt.png" alt="Dostępność">
+        </button>
+    </div>
+    <script src="accessibility.js?v=2"></script>
 </body>
 </html>

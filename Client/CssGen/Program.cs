@@ -127,6 +127,21 @@ class Program
 
         // Mobile Components
         sb.AppendLine("/* 4. MOBILE COMPONENTS */");
+
+        // 5. DOWNLOAD PAGE
+        sb.AppendLine("/* 5. DOWNLOAD PAGE */");
+        sb.AppendLine(".os-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }");
+        sb.AppendLine(".os-card { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; width: 200px; height: 200px; text-decoration: none; color: #fff; background: rgba(255, 255, 255, 0.08); border-radius: 16px; transition: background-color 0.3s ease, transform 0.3s ease; border: 1px solid transparent; text-align: center; position: relative; }");
+        sb.AppendLine(".os-card:not(.disabled):hover, .os-card:not(.disabled):focus { transform: translateY(-5px); background: rgba(255, 255, 255, 0.18); border-color: #28a745; outline: none; }");
+        sb.AppendLine(".os-card.disabled { cursor: not-allowed; opacity: 0.6; }");
+        sb.AppendLine(".os-icon-img { max-width: 160px; max-height: 160px; width: 80%; height: auto; object-fit: contain; margin-bottom: auto; filter: brightness(0) invert(1); }");
+        sb.AppendLine(".os-name { font-size: 1.2rem; font-weight: 600; margin-top: auto; }");
+        sb.AppendLine(".os-version { font-size: 14px; color: #a0aec0; margin-top: 5px; }");
+        sb.AppendLine(".soon-badge { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: #f97316; color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; }");
+
+        // Media Queries for Download Page
+        sb.AppendLine("@media (max-width: 768px) { .os-card { width: 150px; height: 150px; } .os-icon-img { width: 70%; } .os-name { font-size: 1.1rem; } .os-version { font-size: 13px; } }");
+        sb.AppendLine("@media (max-width: 500px) { .os-grid { flex-direction: column; align-items: center; } .os-card { width: 100%; max-width: 250px; height: auto; min-height: 120px; padding: 15px; } }");
         
         // Back Button (Hidden on desktop, visible on mobile)
         sb.AppendLine(".mobile-back-btn {");

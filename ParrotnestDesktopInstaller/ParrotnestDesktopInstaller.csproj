@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ParrotnestDesktopInstaller</AssemblyName>
+    <RootNamespace>ParrotnestDesktopInstaller</RootNamespace>
+    <ApplicationIcon>..\Server\logo.ico</ApplicationIcon>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Server\logo.ico">
+      <Link>logo.ico</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Client\parrot.mp3">
+      <Link>parrot.mp3</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Client\animation.js">
+      <Link>animation.js</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
