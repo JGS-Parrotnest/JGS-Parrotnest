@@ -681,7 +681,7 @@
                  <div class="settings-section" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
                     <h4>JGS Team</h4>
                     <div id="debugInfo" style="background: #111; padding: 15px; border-radius: 8px; color: #0f0; font-family: monospace; margin-top: 10px; font-size: 0.9rem; line-height: 1.6; border: 1px solid #333;">
-                        <div><strong>System:</strong> Parrotnest v9.1 Release + Desktop Client</div>
+                        <div><strong>System:</strong> Parrotnest V10 "Coffee Lake"</div>
                         <div><strong>Copyright:</strong> &copy; 2026 Parrotnest</div>
                         <div><strong>Made by:</strong> JGS team</div>
                     </div>
