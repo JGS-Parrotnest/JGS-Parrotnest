@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🦜 Parrotnest V10
+# 🦜 Parrotnest V11
 **Modern Real-Time Chat & Collaboration Platform**
 
 ![.NET](https://img.shields.io/badge/.NET-10.0-blueviolet?style=for-the-badge&logo=dotnet)
@@ -15,7 +15,7 @@
 ## ✨ Overview
 
 **Parrotnest** is a modern communication platform designed for school communities, groups of friends, and local LAN networks.  
-Version **V10 "Coffee Lake Edition"** represents a major quality leap, introducing advanced accessibility features, new themes, and... hidden nests full of surprises. 🦜✨
+Version **V11 "Panther Lake Edition"** represents a major quality leap, introducing advanced accessibility features, new themes, and... hidden nests full of surprises. 🦜✨
 
 The system consists of:
 
@@ -49,7 +49,7 @@ The system consists of:
 
 ## 🦮 Accessibility
 
-Parrotnest V10 focuses on inclusivity. The new accessibility panel offers:
+Parrotnest V11 focuses on inclusivity. The new accessibility panel offers:
 
 - **Colorblind Filters** – Protanopia, Deuteranopia, Tritanopia, and Achromatopsia.
 - **Contrast Adjustment** – from 50% to 200%.
@@ -86,6 +86,7 @@ Discover hidden features inside the "Parrot’s Nest":
 ```text
 Parrotnest/
 ├─ Client/                  # Frontend (PHP, JS, CSS, Assets)
+│  ├─ APP/                  # Crazy desktop app thingymabom/thingamajig
 │  ├─ DOOM/                 # Embedded Doom (Hell Mode)
 │  ├─ UrUrUr/               # FNAF 1 Launcher
 │  ├─ CssGen/               # CSS Generator (C#)
