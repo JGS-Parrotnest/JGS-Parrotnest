@@ -6,7 +6,7 @@
 ![.NET](https://img.shields.io/badge/.NET-10.0-blueviolet?style=for-the-badge&logo=dotnet)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-SignalR-5C2D91?style=for-the-badge&logo=dotnet)
 ![SQLite](https://img.shields.io/badge/DB-SQLite-blue?style=for-the-badge&logo=sqlite)
-![Status](https://img.shields.io/badge/Version-V10.0_Coffee_Lake_Edition-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/Version-V11.0_Panther_Lake_Edition-brightgreen?style=for-the-badge)
 
 </div>
 
