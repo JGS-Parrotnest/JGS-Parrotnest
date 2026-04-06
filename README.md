@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🦜 Parrotnest V11
+# 🦜 Parrotnest V12
 **Modern Real-Time Chat & Collaboration Platform**
 
-![.NET](https://img.shields.io/badge/.NET-10.0-blueviolet?style=for-the-badge&logo=dotnet)
+![.NET](https://img.shields.io/badge/.NET-11.0-blueviolet?style=for-the-badge&logo=dotnet)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-SignalR-5C2D91?style=for-the-badge&logo=dotnet)
 ![SQLite](https://img.shields.io/badge/DB-SQLite-blue?style=for-the-badge&logo=sqlite)
-![Status](https://img.shields.io/badge/Version-V11.0_Panther_Lake_Edition-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/Version-V12.0_Parrot_Cove_Edition-brightgreen?style=for-the-badge)
 
 </div>
 
@@ -15,7 +15,7 @@
 ## ✨ Overview
 
 **Parrotnest** is a modern communication platform designed for school communities, groups of friends, and local LAN networks.  
-Version **V11 "Panther Lake Edition"** represents a major quality leap, introducing advanced accessibility features, new themes, and... hidden nests full of surprises. 🦜✨
+Version **V12 "Parrot Cove Edition"** represents a major technological leap, migrating to **.NET 11** and **C# 15**, and introducing highly requested features like message editing. 🦜🌊
 
 The system consists of:
 
@@ -26,6 +26,25 @@ The system consists of:
 
 ---
 
+## 🆕 What's New in V12 (Changelog)
+
+### 🚀 Technology Migration
+- **.NET 11 Update:** Migrated all projects to the latest .NET 11 framework for improved performance and security.
+- **C# 15 Support:** Refactored codebase to utilize modern C# 15 features, including primary constructors and enhanced params collections.
+- **SDK Pinning:** Added `global.json` to ensure consistent build environments.
+
+### 💬 Chat Improvements
+- **Message Editing:** Users can now edit their own messages within 15 minutes of sending.
+- **Edit History:** Full transparency with stored edit history and "edited" labels.
+- **Security:** Enhanced XSS protection and SQL injection prevention in message processing.
+
+### 🛠 Fixes & Features
+- **Fixed Installer Download:** Resolved a critical issue preventing the download of the desktop client.
+- **New App Icon:** Refreshed application icon with proper resource embedding across all platforms.
+- **Enhanced Code Analysis:** Full build with enabled .NET analyzers to ensure code quality.
+
+---
+
 ## 🚀 Key Features
 
 ### 💬 Communication
@@ -33,51 +52,46 @@ The system consists of:
 - **Private Messages** – secure 1-on-1 chat.
 - **Groups** – create custom rooms, invite friends, and manage members.
 - **Rich Messages** – support for images, videos, replies, and emoji reactions.
+- **Message Editing** – (New in v12) Edit your mistakes before anyone notices!
 
 ### 🎨 Personalization & UI
 - **Multiple Themes** – choose from: *Original, Dark, Classic, Neon, Forest,* or *High Contrast*.
 - **Dynamic Text Size** – from small to Extra Large.
 - **Plain Text Mode** – for users who prefer minimalism.
-- **Notifications** – full volume control and customizable sounds (`1.mp3`, `2.mp3`, `3.mp3`).
-
-### 🛡 Administration
-- Full user management panel (ban, mute, delete accounts).
-- Administrative action logs – complete operational transparency.
-- API diagnostic tools.
+- **Notifications** – full volume control and customizable sounds.
 
 ---
 
-## 🦮 Accessibility
+## 💻 System Requirements
 
-Parrotnest V11 focuses on inclusivity. The new accessibility panel offers:
+### Server (Host)
+- **OS:** Windows 10 (1809+) or Windows 11.
+- **Runtime:** .NET 11 Runtime (Desktop).
+- **Disk Space:** ~200MB for application + database growth.
 
-- **Colorblind Filters** – Protanopia, Deuteranopia, Tritanopia, and Achromatopsia.
-- **Contrast Adjustment** – from 50% to 200%.
-- **Font Scaling** – for improved readability.
-- **Animation Control** – option to disable unnecessary visual effects.
+### Client (Web)
+- **Browser:** Modern browser (Chrome, Firefox, Edge, Safari).
+- **Server:** PHP 8.1+ (if hosting separately).
 
 ---
 
-## 🎁 Easter Eggs & Secret Menu
+## 📥 Installation Instructions
 
-Discover hidden features inside the "Parrot’s Nest":
-
-- 🌈 **Rainbow Mode** – experience colorful magic across the entire interface.
-- 🌀 **Spin Mode** – spin your friends around (literally!).
-- 🔥 **HELL MODE** – launches a built-in version of the legendary **DOOM** directly in your browser.
-- 🐻 **FNAF 1 Launcher** – need a break? Launch Five Nights at Freddy's 1 directly from the chat.
-- 🦜 **Parrot Logo** – click the logo to hear the voice of our mascot!
+1. **Download:** Get the latest `ParrotnestInstaller.exe` from the download page.
+2. **Install:** Run the installer and follow the on-screen instructions.
+3. **Launch:** Open the **Parrotnest Server Host** from your desktop.
+4. **Configure:** Set your desired port and server settings.
+5. **Connect:** Share the server address with your friends and start chatting!
 
 ---
 
 ## 🛠 Technology Stack
 
-- **Backend:** .NET 10.0, ASP.NET Core, SignalR, Entity Framework Core (SQLite).
-- **Frontend:** PHP, Vanilla JavaScript, CSS (partially generated using `CssGen`).
+- **Backend:** .NET 11.0, ASP.NET Core, SignalR, Entity Framework Core (SQLite).
+- **Frontend:** PHP, Vanilla JavaScript, CSS.
 - **Tools:**
-  - `CssGen` – a custom C# tool for generating responsive stylesheets (author: Hnato).
-  - `ParrotnestDesktopInstaller` – dedicated desktop client installer.
-  - `DosBox integration` – powers Hell Mode (Doom).
+  - `CssGen` – custom C# CSS generator.
+  - `ParrotnestDesktopInstaller` – dedicated installer project.
 
 ---
 
