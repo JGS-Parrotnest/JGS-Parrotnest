@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log("App initializing...");
 
     let replyingTo = null;
+    let editingMessageId = null;
     let sentRequestsFailCount = 0;
 
     window.cancelReply = function() {
@@ -199,6 +200,46 @@ document.addEventListener('DOMContentLoaded', async () => {
                 replyPreview.innerHTML = '';
                 replyPreview.style.display = 'none';
             }, 200);
+        }
+    };
+
+    window.cancelEdit = function() {
+        editingMessageId = null;
+        const replyPreview = document.getElementById('reply-preview');
+        if (replyPreview) {
+            replyPreview.classList.remove('visible');
+            setTimeout(() => {
+                replyPreview.innerHTML = '';
+                replyPreview.style.display = 'none';
+            }, 200);
+        }
+        const input = document.getElementById('messageInput');
+        if (input) input.value = '';
+    };
+
+    window.editMessage = function(id, content) {
+        editingMessageId = id;
+        replyingTo = null; // Can't reply and edit at the same time
+        const replyPreview = document.getElementById('reply-preview');
+        if (replyPreview) {
+            replyPreview.style.display = 'flex';
+            void replyPreview.offsetWidth;
+            replyPreview.classList.add('visible');
+            
+            replyPreview.innerHTML = `
+                <div class="reply-info">
+                    <span class="reply-label"><strong>Edytujesz wiadomość</strong></span>
+                    <span class="reply-content-preview">${content ? content.substring(0, 60) + (content.length > 60 ? '...' : '') : ''}</span>
+                </div>
+                <button class="btn-close-reply" onclick="cancelEdit()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            `;
+        }
+        const input = document.getElementById('messageInput');
+        if (input) {
+            input.value = content;
+            input.focus();
         }
     };
 
@@ -1156,15 +1197,19 @@ _____                     _   _   _           _
 
                         console.log("Sending message:", { senderName, message, safeImageUrl, currentChatType, safeChatId, safeReplyId });
 
-                        if (currentChatType === 'group') {
-                            await connection.invoke("SendMessage", senderName, message, safeImageUrl, null, safeChatId, safeReplyId);
-                        } else if (currentChatType === 'private') {
-                            await connection.invoke("SendMessage", senderName, message, safeImageUrl, safeChatId, null, safeReplyId);
+                        if (editingMessageId) {
+                            await connection.invoke("EditMessage", parseInt(editingMessageId), message);
+                            cancelEdit();
                         } else {
-                            await connection.invoke("SendMessage", senderName, message, safeImageUrl, null, null, safeReplyId);
+                            if (currentChatType === 'group') {
+                                await connection.invoke("SendMessage", senderName, message, safeImageUrl, null, safeChatId, safeReplyId);
+                            } else if (currentChatType === 'private') {
+                                await connection.invoke("SendMessage", senderName, message, safeImageUrl, safeChatId, null, safeReplyId);
+                            } else {
+                                await connection.invoke("SendMessage", senderName, message, safeImageUrl, null, null, safeReplyId);
+                            }
+                            cancelReply();
                         }
-                        
-                        cancelReply();
 
                         input.value = '';
                         selectedImageFile = null;
@@ -1371,8 +1416,8 @@ _____                     _   _   _           _
             }
             let shouldShow = false;
             const currentUser = JSON.parse(localStorage.getItem('user'));
-            const currentUserId = currentUser.id || currentUser.Id;
-            const isOwnMessage = parseInt(senderId) === parseInt(currentUserId);
+            const currentUserId = currentUser ? (currentUser.id || currentUser.Id) : null;
+            const isOwnMessage = currentUserId && senderId && (parseInt(senderId) === parseInt(currentUserId));
             if (groupId) {
                 if (currentChatType === 'group' && currentChatId == groupId) {
                     shouldShow = true;
@@ -1496,7 +1541,20 @@ _____                     _   _   _           _
                 };
                 actionsDiv.appendChild(reactBtn);
 
-                if (isOwnMessage) {
+                if (isOwnMessage && message && message.trim() !== '') {
+                    const editBtn = document.createElement("button");
+                    editBtn.className = "btn-msg-action";
+                    editBtn.title = "Edytuj";
+                    editBtn.innerHTML = `<span class="material-symbols-outlined">edit</span>`;
+                    editBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        window.editMessage(msgId, message);
+                    };
+                    actionsDiv.appendChild(editBtn);
+                }
+
+                const isAdmin = !!(currentUser.isAdmin || currentUser.IsAdmin);
+                if (isOwnMessage || isAdmin) {
                     const deleteBtn = document.createElement("button");
                     deleteBtn.className = "btn-msg-action btn-delete";
                     deleteBtn.title = "Usuń wiadomość";
@@ -1696,26 +1754,15 @@ _____                     _   _   _           _
                 if (!rDiv) {
                     rDiv = document.createElement("div");
                     rDiv.className = "message-reactions";
-
-                    const timestamp = msgDiv.querySelector('.message-time');
-                    if (timestamp) {
-                        msgDiv.insertBefore(rDiv, timestamp);
-                    } else {
-                        msgDiv.appendChild(rDiv);
-                    }
+                    msgDiv.insertBefore(rDiv, msgDiv.querySelector('.message-time'));
                 }
-                
                 rDiv.innerHTML = '';
-                
+                const currentUserId = JSON.parse(localStorage.getItem('user'))?.id;
                 const groups = {};
                 rList.forEach(r => {
                     if (!groups[r.e]) groups[r.e] = [];
                     groups[r.e].push(r.u);
                 });
-                
-                const currentUser = JSON.parse(localStorage.getItem('user'));
-                const currentUserId = currentUser.id || currentUser.Id;
-
                 Object.keys(groups).forEach(e => {
                     const badge = document.createElement("div");
                     badge.className = "reaction-badge";
@@ -1726,8 +1773,6 @@ _____                     _   _   _           _
                     badge.onclick = (ev) => { ev.stopPropagation(); window.reactToMessage(messageId, e); };
                     rDiv.appendChild(badge);
                 });
-                
-                // Add "Add Reaction" button at the end
                 const addBtn = document.createElement("div");
                 addBtn.className = "reaction-badge add-reaction-btn";
                 addBtn.innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.1rem;">add_reaction</span>`;
@@ -1737,8 +1782,66 @@ _____                     _   _   _           _
                     window.toggleReactionPicker(messageId, addBtn);
                 };
                 rDiv.appendChild(addBtn);
-            } catch (e) {
-                console.error("Error updating reactions", e);
+            } catch(e) {}
+        });
+
+        connection.on("MessageEdited", (data) => {
+            const wrapper = document.querySelector(`.message-wrapper[data-message-id="${data.Id || data.id}"]`);
+            if (!wrapper) return;
+            
+            const textEl = wrapper.querySelector('.message-text');
+            if (textEl) {
+                const message = data.Content || data.content;
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                const escapedMessage = message
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+                
+                const parts = escapedMessage.split(urlRegex);
+                textEl.innerHTML = '';
+                
+                parts.forEach(part => {
+                    if (part.match(urlRegex)) {
+                        const url = part;
+                        let domain = 'Link';
+                        try { domain = new URL(url).hostname; } catch (e) {}
+                        
+                        const card = document.createElement('a');
+                        card.href = url;
+                        card.target = "_blank";
+                        card.rel = "noopener noreferrer";
+                        card.className = "link-preview-card";
+                        card.innerHTML = `
+                            <div class="link-icon-container">🔗</div>
+                            <div class="link-info">
+                                <div class="link-title">${url}</div>
+                                <div class="link-domain">${domain}</div>
+                            </div>
+                        `;
+                        textEl.appendChild(card);
+                    } else if (part) {
+                        const span = document.createElement('span');
+                        span.innerHTML = part.replace(/\n/g, '<br>');
+                        textEl.appendChild(span);
+                    }
+                });
+            }
+
+            const msgDiv = wrapper.querySelector('.message');
+            if (msgDiv && !msgDiv.querySelector('.edited-indicator')) {
+                const indicator = document.createElement('span');
+                indicator.className = 'edited-indicator';
+                indicator.textContent = ' (edytowano)';
+                indicator.title = 'Wiadomość została zmodyfikowana';
+                const timeEl = msgDiv.querySelector('.message-time');
+                if (timeEl) {
+                    msgDiv.insertBefore(indicator, timeEl);
+                } else {
+                    msgDiv.appendChild(indicator);
+                }
             }
         });
 
@@ -2794,12 +2897,12 @@ _____                     _   _   _           _
                         const senderAvatarUrl = msg.senderAvatarUrl || msg.SenderAvatarUrl || null;
                         let isOwnMessage = false;
                         const msgSenderId = msg.senderId || msg.SenderId;
-                        const currentUserId = currentUser.id || currentUser.Id;
+                        const currentUserId = currentUser ? (currentUser.id || currentUser.Id) : null;
                         if (msgSenderId && currentUserId) {
                             isOwnMessage = parseInt(msgSenderId) === parseInt(currentUserId);
                         } else {
-                            const currentUsername = currentUser.username || currentUser.userName || currentUser.email || '';
-                            isOwnMessage = senderUsername === currentUsername;
+                            const currentUsername = currentUser ? (currentUser.username || currentUser.userName || currentUser.email || '') : '';
+                            isOwnMessage = senderUsername && currentUsername && (senderUsername === currentUsername);
                         }
 
                         let isContinuation = false;
@@ -2854,6 +2957,19 @@ _____                     _   _   _           _
                             window.toggleReactionPicker(msg.id || msg.Id, reactBtn);
                         };
                         actionsDiv.appendChild(reactBtn);
+
+                        const content = msg.content || msg.Content;
+                        if (isOwnMessage && content && content.trim() !== '') {
+                            const editBtn = document.createElement("button");
+                            editBtn.className = "btn-msg-action";
+                            editBtn.title = "Edytuj";
+                            editBtn.innerHTML = `<span class="material-symbols-outlined">edit</span>`;
+                            editBtn.onclick = (e) => {
+                                e.stopPropagation();
+                                window.editMessage(msg.id || msg.Id, content);
+                            };
+                            actionsDiv.appendChild(editBtn);
+                        }
                         
                         if (isOwnMessage || isAdmin) {
                             const deleteBtn = document.createElement("button");
@@ -3009,6 +3125,15 @@ _____                     _   _   _           _
 
                             msgDiv.appendChild(messageText);
                         }
+
+                        if (msg.isEdited || msg.IsEdited) {
+                            const indicator = document.createElement('span');
+                            indicator.className = 'edited-indicator';
+                            indicator.textContent = ' (edytowano)';
+                            indicator.title = 'Wiadomość została zmodyfikowana';
+                            msgDiv.appendChild(indicator);
+                        }
+
                         const timestamp = document.createElement("div");
                         timestamp.className = "message-time";
                         if (rawDate && !isNaN(msgDate.getTime())) {

@@ -8,10 +8,10 @@ using System.Windows.Forms;
 using System.Media;
 using System.Runtime.InteropServices;
 
-namespace ParrotnestDesktopInstaller
+namespace ParrotnestDesktopInstaller;
+
+public partial class MainForm : Form
 {
-    public partial class MainForm : Form
-    {
         [DllImport("winmm.dll")]
         private static extern long mciSendString(string strCommand, StringBuilder? strReturn, int iReturnLength, IntPtr hwndCallback);
 
@@ -459,4 +459,3 @@ namespace ParrotnestDesktopInstaller
             }
         }
     }
-}

@@ -31,8 +31,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parrotnest</title>
     <link rel="icon" href="logo.png" type="image/png">
-    <link rel="stylesheet" href="style.css?v=15">
-    <link rel="stylesheet" href="mobile.css?v=3" media="(max-width: 768px)">
+    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="mobile.css?v=4" media="(max-width: 768px)">
     <link rel="stylesheet" href="accessibility.css?v=1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -812,8 +812,8 @@
         <img class="image-modal-content" id="img-preview">
         <div id="caption"></div>
     </div>
-    <script src="auth.js?v=9"></script>
-    <script type="module" src="app.js?v=39"></script>
+    <script src="auth.js?v=10"></script>
+    <script type="module" src="app.js?v=40"></script>
     <div id="accessibility-container" class="accessibility-container">
         <div id="accessibility-popout" class="accessibility-popout" role="dialog" aria-labelledby="acc-title" aria-hidden="true">
             <div class="acc-header">

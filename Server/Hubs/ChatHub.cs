@@ -288,6 +288,50 @@ namespace ParrotnestServer.Hubs
             }
         }
 
+        public async Task EditMessage(int messageId, string newContent)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) throw new HubException("Nie zidentyfikowano użytkownika.");
+
+            var msg = await _context.Messages.FindAsync(messageId);
+            if (msg == null) throw new HubException("Wiadomość nie istnieje.");
+            if (msg.SenderId != userId.Value) throw new HubException("Możesz edytować tylko własne wiadomości.");
+
+            if (string.IsNullOrWhiteSpace(newContent)) throw new HubException("Treść wiadomości nie może być pusta.");
+
+            // Save history
+            var history = new System.Collections.Generic.List<string>();
+            if (!string.IsNullOrEmpty(msg.EditHistory))
+            {
+                try { history = System.Text.Json.JsonSerializer.Deserialize<System.Collections.Generic.List<string>>(msg.EditHistory) ?? new(); } catch { }
+            }
+            history.Add(msg.Content ?? string.Empty);
+
+            msg.Content = newContent;
+            msg.IsEdited = true;
+            msg.LastEditedAt = DateTime.UtcNow;
+            msg.EditHistory = System.Text.Json.JsonSerializer.Serialize(history);
+
+            await _context.SaveChangesAsync();
+
+            // Broadcast update
+            var update = new { Id = msg.Id, Content = msg.Content, IsEdited = msg.IsEdited, LastEditedAt = msg.LastEditedAt };
+            
+            if (msg.GroupId.HasValue)
+            {
+                await Clients.Group($"Group_{msg.GroupId.Value}").SendAsync("MessageEdited", update);
+            }
+            else if (msg.ReceiverId.HasValue)
+            {
+                await Clients.Group($"User_{msg.ReceiverId.Value}").SendAsync("MessageEdited", update);
+                await Clients.Group($"User_{msg.SenderId}").SendAsync("MessageEdited", update);
+            }
+            else
+            {
+                await Clients.All.SendAsync("MessageEdited", update);
+            }
+        }
+
         public class ReactionItem
         {
             public int u { get; set; } // UserId

@@ -62,7 +62,10 @@ namespace ParrotnestServer.Controllers
                         ReplyToId = m.ReplyToId,
                         ReplyToSender = m.ReplyTo != null && m.ReplyTo.Sender != null ? m.ReplyTo.Sender.Username : null,
                         ReplyToContent = m.ReplyTo != null ? m.ReplyTo.Content : null,
-                        Reactions = m.Reactions
+                        Reactions = m.Reactions,
+                        IsEdited = m.IsEdited,
+                        LastEditedAt = m.LastEditedAt,
+                        EditHistory = m.EditHistory
                     })
                     .ToListAsync();
                 return Ok(messages);

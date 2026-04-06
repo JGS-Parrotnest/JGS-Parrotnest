@@ -13,18 +13,15 @@ using ParrotnestServer.Services;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
-namespace ParrotnestServer
+namespace ParrotnestServer;
+
+public class ServerHost(Action<string> logAction)
 {
-    public class ServerHost
+    private WebApplication? _app;
+    private readonly Action<string> _logAction = logAction;
+
+    public async Task StartAsync()
     {
-        private WebApplication? _app;
-        private readonly Action<string> _logAction;
-        public ServerHost(Action<string> logAction)
-        {
-            _logAction = logAction;
-        }
-        public async Task StartAsync()
-        {
             try
             {
                 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -48,7 +45,8 @@ namespace ParrotnestServer
                     if (!string.IsNullOrWhiteSpace(overridePath)) return overridePath;
 
                     // Domyślnie baza zawsze w folderze macierzystym pliku EXE (obok parrotnest.exe)
-                    var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                    var exePath = Process.GetCurrentProcess().MainModule?.FileName;
+                    var baseDir = Path.GetDirectoryName(exePath) ?? AppDomain.CurrentDomain.BaseDirectory;
                     var baseDb = Path.Combine(baseDir, "parrotnest.db");
                     return baseDb;
                 }
@@ -492,4 +490,3 @@ SELECT Id, PerformedByUserId, TargetUserId, ActionType, Reason, DurationMinutes,
             }
         }
     }
-}

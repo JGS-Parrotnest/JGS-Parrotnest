@@ -1098,6 +1098,35 @@ body {
     background-color: var(--bg-primary);
 }
 
+.edited-indicator {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-left: 5px;
+    vertical-align: bottom;
+}
+
+#reply-preview {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+    box-sizing: border-box;
+    gap: 15px;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+#reply-preview.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .btn-msg-action.btn-delete:hover {
     color: var(--error-color, #ff4444);
     background-color: rgba(255, 68, 68, 0.15);

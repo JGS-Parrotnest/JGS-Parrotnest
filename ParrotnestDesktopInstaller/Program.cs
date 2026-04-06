@@ -1,15 +1,14 @@
 using System;
 using System.Windows.Forms;
 
-namespace ParrotnestDesktopInstaller
+namespace ParrotnestDesktopInstaller;
+
+internal static class Program
 {
-    internal static class Program
+    [STAThread]
+    static void Main()
     {
-        [STAThread]
-        static void Main()
-        {
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
-        }
+        ApplicationConfiguration.Initialize();
+        Application.Run(new MainForm());
     }
 }
