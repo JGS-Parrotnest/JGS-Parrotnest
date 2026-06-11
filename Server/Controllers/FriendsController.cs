@@ -33,16 +33,94 @@ namespace ParrotnestServer.Controllers
             }
             return null;
         }
+
+        private async Task<Friendship?> GetFriendshipAsync(int userId, int targetUserId)
+        {
+            return await _context.Friendships.FirstOrDefaultAsync(f =>
+                (f.RequesterId == userId && f.AddresseeId == targetUserId) ||
+                (f.RequesterId == targetUserId && f.AddresseeId == userId));
+        }
+
+        private async Task<UserRelation?> GetRelationAsync(int requesterId, int targetUserId)
+        {
+            return await _context.UserRelations.FirstOrDefaultAsync(r =>
+                r.RequesterId == requesterId && r.TargetUserId == targetUserId);
+        }
+
+        private static string BuildPrivateChatRestrictionReason(
+            bool isFriend,
+            bool isBlockedByMe,
+            bool isBlockedByTarget,
+            bool isIgnoredByMe,
+            bool isIgnoredByTarget)
+        {
+            if (isBlockedByMe) return "Najpierw odblokuj tego użytkownika.";
+            if (isBlockedByTarget) return "Ten użytkownik Cię zablokował.";
+            if (isIgnoredByMe) return "Najpierw cofnij ignorowanie tego użytkownika.";
+            if (isIgnoredByTarget) return "Ten użytkownik ignoruje Twoje wiadomości.";
+            if (!isFriend) return "Wiadomości prywatne są dostępne tylko dla znajomych.";
+            return string.Empty;
+        }
+
+        private async Task<object> BuildRelationStateAsync(int userId, User targetUser)
+        {
+            var friendship = await GetFriendshipAsync(userId, targetUser.Id);
+            var myRelation = await GetRelationAsync(userId, targetUser.Id);
+            var targetRelation = await GetRelationAsync(targetUser.Id, userId);
+
+            var isFriend = friendship?.Status == FriendshipStatus.Accepted;
+            var hasPendingOutgoingRequest = friendship?.Status == FriendshipStatus.Pending && friendship.RequesterId == userId;
+            var hasPendingIncomingRequest = friendship?.Status == FriendshipStatus.Pending && friendship.AddresseeId == userId;
+            var isBlockedByMe = myRelation?.RelationType == UserRelationType.Blocked;
+            var isBlockedByTarget = targetRelation?.RelationType == UserRelationType.Blocked;
+            var isIgnoredByMe = myRelation?.RelationType == UserRelationType.Ignored;
+            var isIgnoredByTarget = targetRelation?.RelationType == UserRelationType.Ignored;
+            var canSendPrivateMessage = isFriend && !isBlockedByMe && !isBlockedByTarget && !isIgnoredByMe && !isIgnoredByTarget;
+
+            return new
+            {
+                targetUser = new
+                {
+                    targetUser.Id,
+                    targetUser.Username,
+                    targetUser.Email,
+                    targetUser.AvatarUrl,
+                    targetUser.Status
+                },
+                isFriend,
+                hasPendingOutgoingRequest,
+                hasPendingIncomingRequest,
+                incomingRequestId = hasPendingIncomingRequest ? friendship?.Id : null,
+                outgoingRequestId = hasPendingOutgoingRequest ? friendship?.Id : null,
+                isBlockedByMe,
+                isBlockedByTarget,
+                isIgnoredByMe,
+                isIgnoredByTarget,
+                canSendPrivateMessage,
+                chatDisabledReason = BuildPrivateChatRestrictionReason(
+                    isFriend,
+                    isBlockedByMe,
+                    isBlockedByTarget,
+                    isIgnoredByMe,
+                    isIgnoredByTarget)
+            };
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetFriends()
         {
             var userId = GetUserId();
             if (!userId.HasValue) return Unauthorized();
+            var hiddenTargetIds = await _context.UserRelations
+                .Where(r => r.RequesterId == userId.Value)
+                .Select(r => r.TargetUserId)
+                .ToListAsync();
             var friendships = await _context.Friendships
                 .Include(f => f.Requester)
                 .Include(f => f.Addressee)
                 .Where(f => f.Status == FriendshipStatus.Accepted && 
-                           (f.RequesterId == userId || f.AddresseeId == userId))
+                           (f.RequesterId == userId || f.AddresseeId == userId) &&
+                           !hiddenTargetIds.Contains(f.RequesterId == userId ? f.AddresseeId : f.RequesterId))
                 .Select(f => new
                 {
                     Id = f.RequesterId == userId ? f.AddresseeId : f.RequesterId,
@@ -67,15 +145,10 @@ namespace ParrotnestServer.Controllers
                     ((m.SenderId == userId && m.ReceiverId == f.Id) || 
                     (m.ReceiverId == userId && m.SenderId == f.Id)));
                 var isOnline = await _userTracker.IsUserOnline(f.Id);
-                // Calculate final status
-                // If offline (not connected), status is 0
-                // If invisible (4), status is 0
-                // Else use DB status
                 int finalStatus = 0;
                 if (isOnline) {
                     if (f.Status != 4) finalStatus = f.Status;
                 }
-                
                 resultList.Add(new {
                     f.Id,
                     f.Username,
@@ -83,7 +156,7 @@ namespace ParrotnestServer.Controllers
                     f.AvatarUrl,
                     LastMessage = lastMsg?.Content,
                     LastMessageTime = lastMsg?.Timestamp,
-                    IsOnline = isOnline, // Keep for backward compatibility if needed, or remove
+                    IsOnline = isOnline,
                     Status = finalStatus
                 });
             }
@@ -94,11 +167,16 @@ namespace ParrotnestServer.Controllers
         {
             var userId = GetUserId();
             if (!userId.HasValue) return Unauthorized();
+            var hiddenTargetIds = await _context.UserRelations
+                .Where(r => r.RequesterId == userId.Value)
+                .Select(r => r.TargetUserId)
+                .ToListAsync();
 
             var pending = await _context.Friendships
                 .Include(f => f.Requester)
                 .Include(f => f.Addressee)
-                .Where(f => f.Status == FriendshipStatus.Pending && f.AddresseeId == userId)
+                .Where(f => f.Status == FriendshipStatus.Pending && f.AddresseeId == userId &&
+                    !hiddenTargetIds.Contains(f.RequesterId))
                 .Select(f => new
                 {
                     Id = f.Id,
@@ -118,11 +196,16 @@ namespace ParrotnestServer.Controllers
         {
             var userId = GetUserId();
             if (!userId.HasValue) return Unauthorized();
+            var hiddenTargetIds = await _context.UserRelations
+                .Where(r => r.RequesterId == userId.Value)
+                .Select(r => r.TargetUserId)
+                .ToListAsync();
 
             var sent = await _context.Friendships
                 .Include(f => f.Requester)
                 .Include(f => f.Addressee)
-                .Where(f => f.Status == FriendshipStatus.Pending && f.RequesterId == userId)
+                .Where(f => f.Status == FriendshipStatus.Pending && f.RequesterId == userId &&
+                    !hiddenTargetIds.Contains(f.AddresseeId))
                 .Select(f => new
                 {
                     Id = f.Id,
@@ -136,6 +219,55 @@ namespace ParrotnestServer.Controllers
 
             return Ok(sent);
         }
+
+        [HttpGet("blocked")]
+        public async Task<ActionResult<IEnumerable<object>>> GetBlockedUsers()
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+
+            var blocked = await _context.UserRelations
+                .Include(r => r.TargetUser)
+                .Where(r => r.RequesterId == userId.Value && r.RelationType == UserRelationType.Blocked && r.TargetUser != null)
+                .OrderByDescending(r => r.CreatedAt)
+                .Select(r => new
+                {
+                    Id = r.TargetUserId,
+                    Username = r.TargetUser!.Username,
+                    Email = r.TargetUser.Email,
+                    AvatarUrl = r.TargetUser.AvatarUrl,
+                    Status = r.TargetUser.Status,
+                    CreatedAt = r.CreatedAt
+                })
+                .ToListAsync();
+
+            return Ok(blocked);
+        }
+
+        [HttpGet("ignored")]
+        public async Task<ActionResult<IEnumerable<object>>> GetIgnoredUsers()
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+
+            var ignored = await _context.UserRelations
+                .Include(r => r.TargetUser)
+                .Where(r => r.RequesterId == userId.Value && r.RelationType == UserRelationType.Ignored && r.TargetUser != null)
+                .OrderByDescending(r => r.CreatedAt)
+                .Select(r => new
+                {
+                    Id = r.TargetUserId,
+                    Username = r.TargetUser!.Username,
+                    Email = r.TargetUser.Email,
+                    AvatarUrl = r.TargetUser.AvatarUrl,
+                    Status = r.TargetUser.Status,
+                    CreatedAt = r.CreatedAt
+                })
+                .ToListAsync();
+
+            return Ok(ignored);
+        }
+
         [HttpGet("mutual/{targetUserId:int}")]
         public async Task<IActionResult> GetMutualFriends(int targetUserId)
         {
@@ -165,6 +297,20 @@ namespace ParrotnestServer.Controllers
                 .ToListAsync();
             return Ok(mutualFriends);
         }
+
+        [HttpGet("relation/{targetUserId:int}")]
+        public async Task<IActionResult> GetUserRelation(int targetUserId)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+            if (targetUserId == userId.Value) return BadRequest("Nie możesz sprawdzić relacji z samym sobą.");
+
+            var targetUser = await _context.Users.FindAsync(targetUserId);
+            if (targetUser == null) return NotFound("Użytkownik nie został znaleziony.");
+
+            return Ok(await BuildRelationStateAsync(userId.Value, targetUser));
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddFriend([FromBody] AddFriendDto dto)
         {
@@ -184,6 +330,24 @@ namespace ParrotnestServer.Controllers
             if (targetUser.Id == userId)
             {
                 return BadRequest("Nie możesz dodać samego siebie.");
+            }
+            var myRelation = await GetRelationAsync(userId.Value, targetUser.Id);
+            var theirRelation = await GetRelationAsync(targetUser.Id, userId.Value);
+            if (myRelation?.RelationType == UserRelationType.Blocked)
+            {
+                return BadRequest("Najpierw odblokuj tego użytkownika.");
+            }
+            if (theirRelation?.RelationType == UserRelationType.Blocked)
+            {
+                return BadRequest("Nie możesz wysłać zaproszenia do tego użytkownika.");
+            }
+            if (myRelation?.RelationType == UserRelationType.Ignored)
+            {
+                return BadRequest("Najpierw cofnij ignorowanie tego użytkownika.");
+            }
+            if (theirRelation?.RelationType == UserRelationType.Ignored)
+            {
+                return BadRequest("Nie możesz wysłać zaproszenia do tego użytkownika.");
             }
             var existingFriendship = await _context.Friendships
                 .FirstOrDefaultAsync(f => 
@@ -210,8 +374,6 @@ namespace ParrotnestServer.Controllers
                     {
                         existingFriendship.Status = FriendshipStatus.Accepted;
                         await _context.SaveChangesAsync();
-
-                        // Notify the original requester (targetUser) that their request was accepted by current user
                         var acceptingUser = await _context.Users.FindAsync(userId.Value);
                         if (acceptingUser != null)
                         {
@@ -240,8 +402,6 @@ namespace ParrotnestServer.Controllers
             };
             _context.Friendships.Add(friendship);
             await _context.SaveChangesAsync();
-
-            // Notify target user about new request
             var sender = await _context.Users.FindAsync(userId.Value);
             if (sender != null)
             {
@@ -277,10 +437,14 @@ namespace ParrotnestServer.Controllers
             {
                 return BadRequest("Zaproszenie nie jest w stanie oczekiwania.");
             }
+            var myRelation = await GetRelationAsync(userId.Value, friendship.RequesterId);
+            var theirRelation = await GetRelationAsync(friendship.RequesterId, userId.Value);
+            if (myRelation != null || theirRelation != null)
+            {
+                return BadRequest("Nie możesz zaakceptować tego zaproszenia przy aktywnej blokadzie lub ignorowaniu.");
+            }
             friendship.Status = FriendshipStatus.Accepted;
             await _context.SaveChangesAsync();
-
-            // Notify the requester that their request was accepted
             var acceptingUser = await _context.Users.FindAsync(userId.Value);
             if (acceptingUser != null)
             {
@@ -294,6 +458,101 @@ namespace ParrotnestServer.Controllers
 
             return Ok(new { message = "Zaproszenie zostało zaakceptowane." });
         }
+
+        [HttpPost("block/{targetUserId:int}")]
+        public async Task<IActionResult> BlockUser(int targetUserId)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+            if (targetUserId == userId.Value) return BadRequest("Nie możesz zablokować samego siebie.");
+
+            var targetUser = await _context.Users.FindAsync(targetUserId);
+            if (targetUser == null) return NotFound("Użytkownik nie został znaleziony.");
+
+            var relation = await GetRelationAsync(userId.Value, targetUserId);
+            if (relation == null)
+            {
+                relation = new UserRelation
+                {
+                    RequesterId = userId.Value,
+                    TargetUserId = targetUserId,
+                    RelationType = UserRelationType.Blocked
+                };
+                _context.UserRelations.Add(relation);
+            }
+            else
+            {
+                relation.RelationType = UserRelationType.Blocked;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { message = $"Użytkownik {targetUser.Username} został zablokowany." });
+        }
+
+        [HttpPost("unblock/{targetUserId:int}")]
+        public async Task<IActionResult> UnblockUser(int targetUserId)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+
+            var relation = await GetRelationAsync(userId.Value, targetUserId);
+            if (relation == null || relation.RelationType != UserRelationType.Blocked)
+            {
+                return NotFound("Ten użytkownik nie jest zablokowany.");
+            }
+
+            _context.UserRelations.Remove(relation);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Użytkownik został odblokowany." });
+        }
+
+        [HttpPost("ignore/{targetUserId:int}")]
+        public async Task<IActionResult> IgnoreUser(int targetUserId)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+            if (targetUserId == userId.Value) return BadRequest("Nie możesz ignorować samego siebie.");
+
+            var targetUser = await _context.Users.FindAsync(targetUserId);
+            if (targetUser == null) return NotFound("Użytkownik nie został znaleziony.");
+
+            var relation = await GetRelationAsync(userId.Value, targetUserId);
+            if (relation == null)
+            {
+                relation = new UserRelation
+                {
+                    RequesterId = userId.Value,
+                    TargetUserId = targetUserId,
+                    RelationType = UserRelationType.Ignored
+                };
+                _context.UserRelations.Add(relation);
+            }
+            else
+            {
+                relation.RelationType = UserRelationType.Ignored;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { message = $"Użytkownik {targetUser.Username} został zignorowany." });
+        }
+
+        [HttpPost("unignore/{targetUserId:int}")]
+        public async Task<IActionResult> UnignoreUser(int targetUserId)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) return Unauthorized();
+
+            var relation = await GetRelationAsync(userId.Value, targetUserId);
+            if (relation == null || relation.RelationType != UserRelationType.Ignored)
+            {
+                return NotFound("Ten użytkownik nie jest ignorowany.");
+            }
+
+            _context.UserRelations.Remove(relation);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Ignorowanie użytkownika zostało cofnięte." });
+        }
+
         [HttpDelete("{friendId:int}")]
         public async Task<IActionResult> RemoveFriend(int friendId)
         {

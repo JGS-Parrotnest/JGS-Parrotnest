@@ -201,7 +201,6 @@ namespace ParrotnestServer.Controllers
             {
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
             }
-            
             if (dto.Theme != null) user.Theme = dto.Theme;
             if (dto.TextSize != null) user.TextSize = dto.TextSize;
             if (dto.IsSimpleText != null) user.IsSimpleText = dto.IsSimpleText.Value;

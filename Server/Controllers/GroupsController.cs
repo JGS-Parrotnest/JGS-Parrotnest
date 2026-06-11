@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using ParrotnestServer.Data;
 using ParrotnestServer.Models;
 using ParrotnestServer.Hubs;
+using ParrotnestServer.Services;
 using System.Security.Claims;
 namespace ParrotnestServer.Controllers
 {
@@ -18,12 +19,14 @@ namespace ParrotnestServer.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<ChatHub> _hubContext;
-        public GroupsController(ApplicationDbContext context, IWebHostEnvironment environment, IConfiguration configuration, IHubContext<ChatHub> hubContext)
+        private readonly IUserTracker _userTracker;
+        public GroupsController(ApplicationDbContext context, IWebHostEnvironment environment, IConfiguration configuration, IHubContext<ChatHub> hubContext, IUserTracker userTracker)
         {
             _context = context;
             _environment = environment;
             _configuration = configuration;
             _hubContext = hubContext;
+            _userTracker = userTracker;
         }
         [HttpGet("common/{targetUserId}")]
         public async Task<IActionResult> GetCommonGroups(int targetUserId)
@@ -118,6 +121,8 @@ namespace ParrotnestServer.Controllers
             {
                 await _hubContext.Clients.User(uid.ToString())
                     .SendAsync("GroupMembershipChanged", "added", groupPayload);
+                var conns = await _userTracker.GetConnectionsForUser(uid);
+                foreach(var c in conns) await _hubContext.Groups.AddToGroupAsync(c, $"Group_{group.Id}");
             }
 
             return Ok(new { message = "Grupa została utworzona.", groupId = group.Id });
@@ -356,6 +361,8 @@ namespace ParrotnestServer.Controllers
                         {
                             await _hubContext.Clients.User(userToAdd.Id.ToString())
                                 .SendAsync("GroupMembershipChanged", "added", groupPayload);
+                            var conns = await _userTracker.GetConnectionsForUser(userToAdd.Id);
+                            foreach(var c in conns) await _hubContext.Groups.AddToGroupAsync(c, $"Group_{id}");
                         }
                     }
                 }
@@ -424,6 +431,8 @@ namespace ParrotnestServer.Controllers
                     group.CreatedAt,
                     group.OwnerId
                 });
+            var conns = await _userTracker.GetConnectionsForUser(userId);
+            foreach(var c in conns) await _hubContext.Groups.RemoveFromGroupAsync(c, $"Group_{id}");
             return Ok(new { message = "Opuściłeś grupę." });
         }
         [HttpDelete("{id}/members/{userId}")]
@@ -466,6 +475,8 @@ namespace ParrotnestServer.Controllers
                     group.CreatedAt,
                     group.OwnerId
                 });
+            var conns = await _userTracker.GetConnectionsForUser(userId);
+            foreach(var c in conns) await _hubContext.Groups.RemoveFromGroupAsync(c, $"Group_{id}");
             return Ok(new { message = "Użytkownik został usunięty z grupy." });
         }
     }

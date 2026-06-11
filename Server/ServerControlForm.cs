@@ -18,6 +18,23 @@ namespace ParrotnestServer
         {
             InitializeComponent();
             _serverHost = new ServerHost(Log);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Log(@"  _____                     _                   _   ");
+            Log(@" |  __ \                   | |                 | |  ");
+            Log(@" | |__) |_ _ _ __ _ __ ___ | |_ _ __   ___  ___| |_ ");
+            Log(@" |  ___/ _` | '__| '__/ _ \| __| '_ \ / _ \/ __| __|");
+            Log(@" | |  | (_| | |  | | | (_) | |_| | | |  __/\__ \ |_ ");
+            Log(@" |_|   \__,_|_|  |_|  \___/ \__|_| |_|\___||___/\__|");
+            Log(@"                                                    ");
+            Log(@"                                                    ");
+            Log(@"System: Parrotnest V13  Parrot Egg System");
+            Log(@"Engine: Parrot Core 2.2   ");
+            Log(@"Copyright: © 2026 Parrotnest");
+            Log(@"Made by: JGS team");
+            Log(@"                                                    ");
+            Log(@"                                                    ");
+            Console.ForegroundColor = ConsoleColor.White;
+            
             this.Shown += async (s, e) => await StartServer();
         }
         private void InitializeComponent()

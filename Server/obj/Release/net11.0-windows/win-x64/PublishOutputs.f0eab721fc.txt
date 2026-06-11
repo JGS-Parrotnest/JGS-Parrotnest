@@ -1,1 +1,0 @@
-C:\Users\user\Music\Komunikator JGS\GIT\JGS-Parrotnest\Server\bin\Release\net11.0-windows\win-x64\publish\ParrotnestServer.exe

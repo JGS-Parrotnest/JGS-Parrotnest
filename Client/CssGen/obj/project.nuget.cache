@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "F7gfpEbpFzM=",
+  "dgSpecHash": "xd2GuWtlI+s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\Music\\Komunikator JGS\\Alfa v5.0\\Client\\CssGen\\CssGen.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\user\\Music\\Komunikator JGS\\V 13\\Client\\CssGen\\CssGen.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.app.ref\\10.0.5\\microsoft.netcore.app.ref.10.0.5.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\10.0.5\\microsoft.windowsdesktop.app.ref.10.0.5.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\10.0.5\\microsoft.aspnetcore.app.ref.10.0.5.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\10.0.5\\microsoft.netcore.app.host.win-x64.10.0.5.nupkg.sha512"
+  ],
   "logs": []
 }

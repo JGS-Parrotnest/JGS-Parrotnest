@@ -11,7 +11,6 @@ session_destroy();
             try {
                 var t = localStorage.getItem('preferredTheme') || 'original';
                 document.documentElement.setAttribute('data-theme', t);
-                
                 var s = localStorage.getItem('preferredTextSize') || 'medium';
                 document.documentElement.setAttribute('data-text-size', s);
 
@@ -26,16 +25,16 @@ session_destroy();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parrotnest - Zaloguj się</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="Assets/logo.png" type="image/png">
     <link rel="stylesheet" href="style.css?v=7">
     <link rel="stylesheet" href="mobile.css?v=1" media="(max-width: 768px)">
-    <link rel="stylesheet" href="accessibility.css?v=1">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
         <div class="logo-area">
-            <img src="logo.png" alt="Parrotnest Logo" class="logo">
+            <img src="Assets/logo.png" alt="Parrotnest Logo" class="logo">
             <h1>Parrotnest</h1>
         </div>
         <div class="login-card">
@@ -64,11 +63,8 @@ session_destroy();
                 <div style="margin-top: 20px; text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
                     <a href="download.php" style="text-decoration: none;">
                         <button type="button" class="btn-primary" style="background: #28a745; border: 1px solid #28a745; color: #fff; padding: 12px 24px; font-size: 1rem; cursor: pointer; transition: transform 0.2s;">
-                            Pobierz aplikację na komputer
+                            Pobierz aplikacje
                         </button>
-                    </a>
-                    <a href="/ParrotnestInstaller.dmg" download style="font-size: 0.85rem; color: #555; text-decoration: none;">
-                        Pobierz aplikację desktopową
                     </a>
                 </div>
             </div>
@@ -76,46 +72,5 @@ session_destroy();
     </div>
     <script src="auth.js?v=9"></script>
     <script src="particles.js"></script>
-    <!-- Accessibility Component -->
-    <div id="accessibility-container" class="accessibility-container">
-        <div id="accessibility-popout" class="accessibility-popout" role="dialog" aria-labelledby="acc-title" aria-hidden="true">
-            <div class="acc-header">
-                <h2 id="acc-title">Ustawienia dostępności</h2>
-                <button id="close-acc-popout" aria-label="Zamknij panel">&times;</button>
-            </div>
-            <div class="acc-body">
-                <div class="acc-option">
-                    <label for="acc-contrast">Kontrast: <span id="contrast-val">100</span>%</label>
-                    <input type="range" id="acc-contrast" min="50" max="200" value="100" step="10">
-                </div>
-                <div class="acc-option">
-                    <label for="acc-font-size">Wielkość czcionki: <span id="font-size-val">100</span>%</label>
-                    <input type="range" id="acc-font-size" min="100" max="200" value="100" step="10">
-                </div>
-                <div class="acc-option">
-                    <label for="acc-colorblind">Tryb daltonizmu:</label>
-                    <select id="acc-colorblind">
-                        <option value="none">Brak</option>
-                        <option value="protanopia">Protanopia</option>
-                        <option value="deuteranopia">Deuteranopia</option>
-                        <option value="tritanopia">Tritanopia</option>
-                        <option value="achromatopsia">Achromatopsja</option>
-                    </select>
-                </div>
-                <div class="acc-option toggle-option">
-                    <label>Animacje:</label>
-                    <label class="switch">
-                        <input type="checkbox" id="acc-animations" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <button id="acc-reset" class="acc-reset-btn">Przywróć domyślne</button>
-            </div>
-        </div>
-        <button id="accessibility-button" class="accessibility-button" aria-label="Ustawienia dostępności" aria-expanded="false" aria-controls="accessibility-popout">
-            <img src="accbt.png" alt="Dostępność">
-        </button>
-    </div>
-    <script src="accessibility.js?v=2"></script>
 </body>
 </html>

@@ -25,10 +25,6 @@ namespace ParrotnestServer.Models
         public int? ReplyToId { get; set; }
         [ForeignKey("ReplyToId")]
         public Message? ReplyTo { get; set; }
-        public string? Reactions { get; set; } // JSON: [{"u":1,"e":"❤️"},...]
-
-        public bool IsEdited { get; set; } = false;
-        public DateTime? LastEditedAt { get; set; }
-        public string? EditHistory { get; set; } // JSON list of previous versions
+        public string? Reactions { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace ParrotnestServer.Models
         [ForeignKey(nameof(TargetUserId))]
         public User? TargetUser { get; set; }
         [MaxLength(50)]
-        public string ActionType { get; set; } = string.Empty; // ban | unban | mute | unmute | delete_user | clear_global
+        public string ActionType { get; set; } = string.Empty;
         [MaxLength(500)]
         public string? Reason { get; set; }
         public int? DurationMinutes { get; set; }

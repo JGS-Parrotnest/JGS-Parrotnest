@@ -11,7 +11,6 @@ session_destroy();
             try {
                 var t = localStorage.getItem('preferredTheme') || 'original';
                 document.documentElement.setAttribute('data-theme', t);
-                
                 var s = localStorage.getItem('preferredTextSize') || 'medium';
                 document.documentElement.setAttribute('data-text-size', s);
 
@@ -26,13 +25,12 @@ session_destroy();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parrotnest - Pobierz Aplikację</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="Assets/logo.png" type="image/png">
     <link rel="stylesheet" href="style.css?v=16">
     <link rel="stylesheet" href="mobile.css?v=4" media="(max-width: 768px)">
-    <link rel="stylesheet" href="accessibility.css?v=1">
+
     <style>
-        /* NADPISANIE STYLÓW DLA PEWNOŚCI */
-        .expanded-card {
+.expanded-card {
             width: 1000px !important;
             max-width: 95vw !important;
             max-height: 450px !important;
@@ -90,33 +88,28 @@ session_destroy();
     <div class="login-container" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh;">
         <header class="fixed-nav">
             <div class="logo-area">
-                <img src="logo.png" alt="Parrotnest Logo" class="logo">
+                <img src="Assets/logo.png" alt="Parrotnest Logo" class="logo">
                 <h1>Parrotnest</h1>
             </div>
         </header>
         <div class="login-card expanded-card">
             <h2>Pobierz Aplikację</h2>
             <div class="os-grid">
-                <!-- Windows -->
-                <div class="os-tile-wrapper">
-                    <a href="/ParrotnestInstaller.exe" class="os-card-icon" download aria-label="Pobierz dla Windows">
-                        <img src="win.png" srcset="win.png 1x, win@2x.png 2x" alt="Windows" class="os-icon-img-single">
+<div class="os-tile-wrapper">
+                    <a href="APP/Windows/ParrotnestDesktopInstaller.exe" class="os-card-icon" download aria-label="Pobierz dla Windows">
+                        <img src="Assets/win.png" srcset="Assets/win.png 1x, Assets/win@2x.png 2x" alt="Windows" class="os-icon-img-single">
                     </a>
                     <div class="os-tile-label">Win 10/11</div>
                 </div>
-
-                <!-- macOS -->
-                <div class="os-tile-wrapper">
+<div class="os-tile-wrapper">
                     <div class="os-card-icon disabled" aria-disabled="true">
-                        <img src="mac.png" srcset="mac.png 1x, mac@2x.png 2x" alt="macOS" class="os-icon-img-single">
+                        <img src="Assets/mac.png" srcset="Assets/mac.png 1x, Assets/mac@2x.png 2x" alt="macOS" class="os-icon-img-single">
                     </div>
                     <div class="os-tile-label disabled-label">Wkrótce dostępne</div>
                 </div>
-
-                <!-- Linux -->
-                <div class="os-tile-wrapper">
+<div class="os-tile-wrapper">
                     <div class="os-card-icon disabled" aria-disabled="true">
-                        <img src="tux.png" srcset="tux.png 1x, tux@2x.png 2x" alt="Linux" class="os-icon-img-single">
+                        <img src="Assets/tux.png" srcset="Assets/tux.png 1x, Assets/tux@2x.png 2x" alt="Linux" class="os-icon-img-single">
                     </div>
                     <div class="os-tile-label disabled-label">Wkrótce dostępne</div>
                 </div>
@@ -127,46 +120,5 @@ session_destroy();
         </div>
     </div>
     <script src="particles.js"></script>
-    <!-- Accessibility Component -->
-    <div id="accessibility-container" class="accessibility-container">
-        <div id="accessibility-popout" class="accessibility-popout" role="dialog" aria-labelledby="acc-title" aria-hidden="true">
-            <div class="acc-header">
-                <h2 id="acc-title">Ustawienia dostępności</h2>
-                <button id="close-acc-popout" aria-label="Zamknij panel">&times;</button>
-            </div>
-            <div class="acc-body">
-                <div class="acc-option">
-                    <label for="acc-contrast">Kontrast: <span id="contrast-val">100</span>%</label>
-                    <input type="range" id="acc-contrast" min="50" max="200" value="100" step="10">
-                </div>
-                <div class="acc-option">
-                    <label for="acc-font-size">Wielkość czcionki: <span id="font-size-val">100</span>%</label>
-                    <input type="range" id="acc-font-size" min="100" max="200" value="100" step="10">
-                </div>
-                <div class="acc-option">
-                    <label for="acc-colorblind">Tryb daltonizmu:</label>
-                    <select id="acc-colorblind">
-                        <option value="none">Brak</option>
-                        <option value="protanopia">Protanopia</option>
-                        <option value="deuteranopia">Deuteranopia</option>
-                        <option value="tritanopia">Tritanopia</option>
-                        <option value="achromatopsia">Achromatopsja</option>
-                    </select>
-                </div>
-                <div class="acc-option toggle-option">
-                    <label>Animacje:</label>
-                    <label class="switch">
-                        <input type="checkbox" id="acc-animations" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <button id="acc-reset" class="acc-reset-btn">Przywróć domyślne</button>
-            </div>
-        </div>
-        <button id="accessibility-button" class="accessibility-button" aria-label="Ustawienia dostępności" aria-expanded="false" aria-controls="accessibility-popout">
-            <img src="accbt.png" alt="Dostępność">
-        </button>
-    </div>
-    <script src="accessibility.js?v=2"></script>
 </body>
 </html>

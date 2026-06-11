@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🦜 Parrotnest V12
+# 🦜 Parrotnest V13
 **Modern Real-Time Chat & Collaboration Platform**
 
 ![.NET](https://img.shields.io/badge/.NET-11.0-blueviolet?style=for-the-badge&logo=dotnet)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-SignalR-5C2D91?style=for-the-badge&logo=dotnet)
 ![SQLite](https://img.shields.io/badge/DB-SQLite-blue?style=for-the-badge&logo=sqlite)
-![Status](https://img.shields.io/badge/Version-V12.0_Parrot_Cove_Edition-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/Version-V13.0_Parrot_Egg_Edition-brightgreen?style=for-the-badge)
 
 </div>
 
@@ -15,7 +15,7 @@
 ## ✨ Overview
 
 **Parrotnest** is a modern communication platform designed for school communities, groups of friends, and local LAN networks.  
-Version **V12 "Parrot Cove Edition"** represents a major technological leap, migrating to **.NET 11** and **C# 15**, and introducing highly requested features like message editing. 🦜🌊
+Version **V13 "Parrot Egg Edition"** builds upon the previous release with focus on mobile user interface stability, client developer console security, and visual layout polish. 🦜🥚
 
 The system consists of:
 
@@ -26,19 +26,33 @@ The system consists of:
 
 ---
 
-## 🆕 What's New in V12 (Changelog)
+## 📜 Changelog
 
-### 🚀 Technology Migration
+### 🥚 V13.0 - Parrot Egg Edition (Latest)
+
+#### 📱 UI & Mobile Refinements
+- **Mobile Sidebar Navigation:** Fixed navigation issues in mobile view to allow intuitive transitions to the channels, groups, and friends lists.
+- **Header & Layout Polish:** Resized the `conversation-sidebar-header` to prevent text overflow, repositioned `conversationSidebarName`, and corrected avatar alignments.
+- **General Chat Avatar:** Fixed a bug where the global chat-header avatar failed to render on desktop view.
+
+#### 🔒 Security & Client Console
+- **Console Log Suppression:** Added automatic hiding of `console.log`, `console.warn`, and `console.info` for non-admin client accounts in production environments.
+
+---
+
+### 🦜 V12.0 - Parrot Cove Edition
+
+#### 🚀 Technology Migration
 - **.NET 11 Update:** Migrated all projects to the latest .NET 11 framework for improved performance and security.
 - **C# 15 Support:** Refactored codebase to utilize modern C# 15 features, including primary constructors and enhanced params collections.
 - **SDK Pinning:** Added `global.json` to ensure consistent build environments.
 
-### 💬 Chat Improvements
+#### 💬 Chat Improvements
 - **Message Editing:** Users can now edit their own messages within 15 minutes of sending.
 - **Edit History:** Full transparency with stored edit history and "edited" labels.
 - **Security:** Enhanced XSS protection and SQL injection prevention in message processing.
 
-### 🛠 Fixes & Features
+#### 🛠 Fixes & Features
 - **Fixed Installer Download:** Resolved a critical issue preventing the download of the desktop client.
 - **New App Icon:** Refreshed application icon with proper resource embedding across all platforms.
 - **Enhanced Code Analysis:** Full build with enabled .NET analyzers to ensure code quality.
@@ -52,7 +66,7 @@ The system consists of:
 - **Private Messages** – secure 1-on-1 chat.
 - **Groups** – create custom rooms, invite friends, and manage members.
 - **Rich Messages** – support for images, videos, replies, and emoji reactions.
-- **Message Editing** – (New in v12) Edit your mistakes before anyone notices!
+- **Message Editing** – Edit your mistakes before anyone notices!
 
 ### 🎨 Personalization & UI
 - **Multiple Themes** – choose from: *Original, Dark, Classic, Neon, Forest,* or *High Contrast*.
@@ -117,7 +131,7 @@ Parrotnest/
 
 ## ⚙️ Running (Development)
 
-1. **Requirements:** Windows 10/11, .NET SDK (net10.0).
+1. **Requirements:** Windows 10/11, .NET SDK (net11.0).
 2. **Build:** 
    ```bash
    dotnet build .\Server\ParrotnestServer.csproj -c Debug

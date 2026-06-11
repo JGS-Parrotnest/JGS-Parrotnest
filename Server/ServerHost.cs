@@ -13,15 +13,18 @@ using ParrotnestServer.Services;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
-namespace ParrotnestServer;
-
-public class ServerHost(Action<string> logAction)
+namespace ParrotnestServer
 {
-    private WebApplication? _app;
-    private readonly Action<string> _logAction = logAction;
-
-    public async Task StartAsync()
+    public class ServerHost
     {
+        private WebApplication? _app;
+        private readonly Action<string> _logAction;
+        public ServerHost(Action<string> logAction)
+        {
+            _logAction = logAction;
+        }
+        public async Task StartAsync()
+        {
             try
             {
                 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -43,10 +46,7 @@ public class ServerHost(Action<string> logAction)
                 {
                     var overridePath = Environment.GetEnvironmentVariable("PARROTNEST_DB_PATH");
                     if (!string.IsNullOrWhiteSpace(overridePath)) return overridePath;
-
-                    // Domyślnie baza zawsze w folderze macierzystym pliku EXE (obok parrotnest.exe)
-                    var exePath = Process.GetCurrentProcess().MainModule?.FileName;
-                    var baseDir = Path.GetDirectoryName(exePath) ?? AppDomain.CurrentDomain.BaseDirectory;
+                    var baseDir = AppDomain.CurrentDomain.BaseDirectory;
                     var baseDb = Path.Combine(baseDir, "parrotnest.db");
                     return baseDb;
                 }
@@ -160,8 +160,6 @@ public class ServerHost(Action<string> logAction)
                     {
                         _logAction($"[DB Error] EnsureCreated failed: {ex.Message}");
                     }
-                    
-                    // Enable WAL mode for better multi-user concurrency
                     try { dbContext.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL;"); } catch (Exception ex) { _logAction($"[DB Warning] WAL: {ex.Message}"); }
                     try { dbContext.Database.ExecuteSqlRaw("PRAGMA foreign_keys=ON;"); } catch (Exception ex) { _logAction($"[DB Warning] FK: {ex.Message}"); }
                     try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_Messages_Timestamp ON Messages(Timestamp);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_Messages_Timestamp: {ex.Message}"); }
@@ -170,6 +168,8 @@ public class ServerHost(Action<string> logAction)
                     try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_Messages_GroupId ON Messages(GroupId);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_Messages_GroupId: {ex.Message}"); }
                     try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_Friendships_RequesterId_Status ON Friendships(RequesterId, Status);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_Friendships_RequesterId_Status: {ex.Message}"); }
                     try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_Friendships_AddresseeId_Status ON Friendships(AddresseeId, Status);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_Friendships_AddresseeId_Status: {ex.Message}"); }
+                    try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_UserRelations_RequesterId_RelationType ON UserRelations(RequesterId, RelationType);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_UserRelations_RequesterId_RelationType: {ex.Message}"); }
+                    try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_UserRelations_TargetUserId_RelationType ON UserRelations(TargetUserId, RelationType);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_UserRelations_TargetUserId_RelationType: {ex.Message}"); }
                     try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_GroupMembers_GroupId ON GroupMembers(GroupId);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_GroupMembers_GroupId: {ex.Message}"); }
                     try { dbContext.Database.ExecuteSqlRaw("CREATE INDEX IF NOT EXISTS IX_GroupMembers_UserId ON GroupMembers(UserId);"); } catch (Exception ex) { _logAction($"[DB Warning] IX_GroupMembers_UserId: {ex.Message}"); }
 
@@ -224,6 +224,31 @@ public class ServerHost(Action<string> logAction)
                     }
                     try
                     {
+                        dbContext.Database.ExecuteSqlRaw(@"CREATE TABLE IF NOT EXISTS UserRelations (
+    Id INTEGER NOT NULL CONSTRAINT PK_UserRelations PRIMARY KEY AUTOINCREMENT,
+    RequesterId INTEGER NOT NULL,
+    TargetUserId INTEGER NOT NULL,
+    RelationType TEXT NOT NULL,
+    CreatedAt TEXT NOT NULL,
+    CONSTRAINT FK_UserRelations_Requester FOREIGN KEY (RequesterId) REFERENCES Users(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_UserRelations_Target FOREIGN KEY (TargetUserId) REFERENCES Users(Id) ON DELETE CASCADE,
+    CONSTRAINT CK_UserRelations_NotSelf CHECK (RequesterId <> TargetUserId)
+);");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logAction($"[DB Warning] UserRelations (create): {ex.Message}");
+                    }
+                    try
+                    {
+                        dbContext.Database.ExecuteSqlRaw("CREATE UNIQUE INDEX IF NOT EXISTS IX_UserRelations_RequesterId_TargetUserId ON UserRelations(RequesterId, TargetUserId);");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logAction($"[DB Warning] IX_UserRelations_RequesterId_TargetUserId: {ex.Message}");
+                    }
+                    try
+                    {
                         dbContext.Database.ExecuteSqlRaw(@"CREATE VIEW IF NOT EXISTS AdminActionLog AS
 SELECT Id, PerformedByUserId, TargetUserId, ActionType, Reason, DurationMinutes, Timestamp, Details, Success FROM AdminActionLogs;");
                     }
@@ -231,7 +256,6 @@ SELECT Id, PerformedByUserId, TargetUserId, ActionType, Reason, DurationMinutes,
                     {
                         _logAction($"[DB Warning] AdminActionLog (view): {ex.Message}");
                     }
-                    
                     try {
                         dbContext.Database.ExecuteSqlRaw("ALTER TABLE Users ADD COLUMN Status INTEGER DEFAULT 1;");
                     } catch (Exception ex) { if (!ex.Message.Contains("duplicate column name")) _logAction($"[DB Warning] Status: {ex.Message}"); }
@@ -301,11 +325,9 @@ SELECT Id, PerformedByUserId, TargetUserId, ActionType, Reason, DurationMinutes,
                         }
                         else if (adminByUsername != null && adminByEmail != null && adminByUsername.Id != adminByEmail.Id)
                         {
-                            // Jeśli istnieją dwa różne konta, promuj konto z adresem admin@zse.pl i odróżnij stare konto
                             adminByEmail.Username = "admin";
                             adminByEmail.IsAdmin = true;
                             adminByEmail.PasswordHash = BCrypt.Net.BCrypt.HashPassword("skyadmin");
-                            // Odróżnij stare konto, aby uniknąć kolizji nazw
                             adminByUsername.Username = "admin_old";
                             dbContext.SaveChanges();
                             _logAction("Ujednolicono konta admin: admin@zse.pl ustawiono jako główne.");
@@ -446,8 +468,26 @@ SELECT Id, PerformedByUserId, TargetUserId, ActionType, Reason, DurationMinutes,
             if (_app != null)
             {
                 _logAction("Zatrzymywanie serwera...");
-                await _app.StopAsync();
-                await _app.DisposeAsync();
+                try 
+                {
+                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                    await _app.StopAsync(cts.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    _logAction("Wymuszono natychmiastowe zatrzymanie (timeout).");
+                }
+                catch (Exception ex)
+                {
+                    _logAction($"Błąd podczas zatrzymywania: {ex.Message}");
+                }
+                
+                try
+                {
+                    await _app.DisposeAsync();
+                }
+                catch { }
+
                 _app = null;
                 _logAction("Serwer zatrzymany.");
             }
@@ -490,3 +530,4 @@ SELECT Id, PerformedByUserId, TargetUserId, ActionType, Reason, DurationMinutes,
             }
         }
     }
+}

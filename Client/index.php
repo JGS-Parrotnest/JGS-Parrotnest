@@ -10,7 +10,6 @@
                     localStorage.setItem('preferredTheme', t);
                 }
                 document.documentElement.setAttribute('data-theme', t);
-                
                 var s = localStorage.getItem('preferredTextSize');
                 if (!s) {
                     s = 'medium';
@@ -26,14 +25,31 @@
                 document.documentElement.setAttribute('data-theme', 'original');
             }
         })();
+
+        // Ukrycie konsoli dla klienta (chyba że jest adminem)
+        (function() {
+            try {
+                var userStr = localStorage.getItem('user');
+                var isAdmin = false;
+                if (userStr) {
+                    var u = JSON.parse(userStr);
+                    isAdmin = (u.isAdmin || u.IsAdmin);
+                }
+                if (!isAdmin && !window.DEBUG_MODE) {
+                    console.log = function() {};
+                    console.warn = function() {};
+                    console.info = function() {};
+                }
+            } catch(e) {}
+        })();
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parrotnest</title>
-    <link rel="icon" href="logo.png" type="image/png">
-    <link rel="stylesheet" href="style.css?v=16">
-    <link rel="stylesheet" href="mobile.css?v=4" media="(max-width: 768px)">
-    <link rel="stylesheet" href="accessibility.css?v=1">
+    <link rel="icon" href="Assets/logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="mobile.css?v=6" media="(max-width: 768px)">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
@@ -43,14 +59,11 @@
             try {
                 const token = localStorage.getItem('token');
                 const userStr = localStorage.getItem('user');
-                
                 if (!token) {
                     console.warn('Brak tokena w localStorage. Przekierowanie do logowania.');
                     window.location.href = '/login.php';
                     return;
                 }
-                
-                // Allow userStr to be missing, app.js will handle recovery
                 let user = null;
                 if (userStr) {
                     try {
@@ -61,12 +74,10 @@
                 document.addEventListener('DOMContentLoaded', () => {
                     const userNameEl = document.getElementById('userName');
                     const userAvatarEl = document.getElementById('userAvatar');
-                    
                     if (user) {
                         if (userNameEl) {
                             userNameEl.textContent = user.username || user.userName || user.email || 'Użytkownik';
                         }
-                        
                         if (userAvatarEl) {
                             const uAv = user.avatarUrl || user.AvatarUrl;
                             if (uAv) {
@@ -89,7 +100,6 @@
                                     } catch (e) {
                                     }
                                 }
-                                
                                 userAvatarEl.style.backgroundImage = `url('${url}')`;
                                 userAvatarEl.style.backgroundSize = 'cover';
                                 userAvatarEl.style.backgroundColor = 'transparent';
@@ -116,28 +126,14 @@
     </script>
 </head>
 <body>
-    <!-- Accessibility Colorblind Filters -->
-    <svg style="display:none">
-        <defs>
-            <filter id="protanopia-filter">
-                <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0 0.558, 0.442, 0, 0, 0 0, 0.242, 0.758, 0, 0 0, 0, 0, 1, 0" />
-            </filter>
-            <filter id="deuteranopia-filter">
-                <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0 0.7, 0.3, 0, 0, 0 0, 0.3, 0.7, 0, 0 0, 0, 0, 1, 0" />
-            </filter>
-            <filter id="tritanopia-filter">
-                <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0 0, 0.433, 0.567, 0, 0 0, 0.475, 0.525, 0, 0 0, 0, 0, 1, 0" />
-            </filter>
-        </defs>
-    </svg>
+
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo-container" id="logoContainer" title="Kliknij, aby usłyszeć papugę!">
-                    <img src="logo.png" alt="Logo" class="header-logo">
+                    <img src="Assets/logo.png" alt="Logo" class="header-logo">
                     <h2>Parrotnest</h2>
                 </div>
-                
             </div>
             <div class="chat-list">
                 <div class="channel-folder" id="globalFolder">
@@ -147,7 +143,7 @@
                     </button>
                     <div class="channel-folder-body" id="globalFolderBody">
                         <div class="chat-item active" id="globalChatItem">
-                            <div class="avatar" style="background-image: url('logo.png'); background-size: cover; background-position: center;"></div>
+                            <div class="avatar" style="background-image: url('Assets/logo.png'); background-size: cover; background-position: center;"></div>
                             <div class="chat-info">
                                 <h4>Ogólny</h4>
                             </div>
@@ -160,8 +156,7 @@
                         <span class="channel-folder-arrow">▼</span>
                     </button>
                     <div class="channel-folder-body" id="friendsFolderBody">
-                        <!-- Lista znajomych będzie renderowana dynamicznie -->
-                    </div>
+</div>
                 </div>
                 <div class="channel-folder" id="groupsFolder">
                     <button class="channel-folder-header" id="groupsFolderHeader">
@@ -169,8 +164,7 @@
                         <span class="channel-folder-arrow">▼</span>
                     </button>
                     <div class="channel-folder-body" id="groupsFolderBody">
-                        <!-- Lista grup będzie renderowana dynamicznie -->
-                    </div>
+</div>
                 </div>
             </div>
             <div style="padding: 0 10px; position: relative;">
@@ -220,8 +214,10 @@
                 <button type="button" class="btn-icon" id="emojiButton" title="Emoji"><span class="material-symbols-outlined">mood</span></button>
                 <div id="attachmentPreview" style="display: none; margin-right: 10px; color: var(--accent-green);"></div>
                 <input type="text" id="messageInput" placeholder="Napisz wiadomość...">
+                <div id="autocompleteDropdown" class="autocomplete-dropdown" style="display: none;"></div>
                 <button type="submit" id="sendButton" class="btn-send" title="Wyślij wiadomość"><span class="material-symbols-outlined">send</span></button>
             </form>
+            <div id="chatRestrictionNotice" class="chat-restriction-notice" style="display:none;"></div>
             <div id="emojiPicker" class="emoji-picker"></div>
         </main>
     </div>
@@ -287,7 +283,9 @@
                 <div class="avatar-large" id="conversationSidebarAvatar"></div>
                 <h2 id="conversationSidebarName">Nazwa</h2>
                 <div class="status-text" id="conversationSidebarStatus">Status</div>
+                <div class="status-text sidebar-meta-text" id="conversationSidebarMeta" style="display:none;"></div>
             </div>
+            <div class="conversation-sidebar-actions" id="conversationSidebarActions" style="display:none;"></div>
         </div>
         <div class="conversation-sidebar-body" id="conversationSidebarBody">
             <div class="sidebar-section" id="conversationSidebarMembersSection" style="display: none;">
@@ -309,8 +307,6 @@
                 <h4>Zdjęcia i pliki</h4>
                 <div class="conversation-sidebar-images" id="conversationSidebarImages"></div>
             </div>
-            
-            
         </div>
     </div>
     <div id="addModal" class="modal">
@@ -324,11 +320,14 @@
                     <button class="tab-button active" data-tab="friend">Znajomy</button>
                     <button class="tab-button" data-tab="group">Grupa</button>
                     <button class="tab-button" data-tab="requests">Zaproszenia</button>
+                    <button class="tab-button" data-tab="blocked">Zablokowani</button>
+                    <button class="tab-button" data-tab="ignored">Ignorowani</button>
                 </div>
                 <div class="tab-content active" id="friendTab">
                     <div class="input-group">
                         <label for="friendUsername">Nazwa użytkownika lub email</label>
-                        <input type="text" id="friendUsername" placeholder="Wpisz nazwę użytkownika lub email">
+                        <input type="text" id="friendUsername" list="friendSuggestions" placeholder="Wpisz nazwę użytkownika lub email">
+                        <datalist id="friendSuggestions"></datalist>
                     </div>
                     <button class="btn-primary" id="addFriendBtn">Dodaj znajomego</button>
                 </div>
@@ -347,6 +346,8 @@
                     </div>
                     <div class="input-group">
                         <label for="groupMembers">Wybierz członków</label>
+                        <input type="text" id="groupMembersSearch" list="groupMembersSuggestions" placeholder="Wyszukaj osoby do grupy">
+                        <datalist id="groupMembersSuggestions"></datalist>
                         <div id="friendsSelectionList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
                         </div>
                         <input type="hidden" id="groupMembers">
@@ -367,6 +368,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-content" id="blockedTab">
+                    <div class="input-group">
+                        <label>Zablokowani użytkownicy</label>
+                        <div id="blockedUsersList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <div style="color: var(--text-muted); font-size: 0.8rem; width: 100%; text-align: center;">Brak zablokowanych użytkowników.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="ignoredTab">
+                    <div class="input-group">
+                        <label>Ignorowani użytkownicy</label>
+                        <div id="ignoredUsersList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <div style="color: var(--text-muted); font-size: 0.8rem; width: 100%; text-align: center;">Brak ignorowanych użytkowników.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -379,6 +396,8 @@
             <div class="modal-body">
                 <div class="input-group">
                     <label>Wybierz znajomych</label>
+                    <input type="text" id="addMemberSearch" list="addMemberSuggestions" placeholder="Wyszukaj znajomych do dodania">
+                    <datalist id="addMemberSuggestions"></datalist>
                     <div id="addMemberSelectionList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; max-height: 300px; overflow-y: auto; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
                     </div>
                     <input type="hidden" id="addMemberHiddenInput">
@@ -524,7 +543,6 @@
                             </label>
                         </div>
                         <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
-    
                         </div>
                     </div>
                     <div class="input-group">
@@ -602,7 +620,6 @@
                         <button id="profileMessageBtn" class="btn-primary" style="flex: 1; max-width: 150px;">Wiadomość</button>
                         <button id="profileFriendBtn" class="btn-primary" style="flex: 1; max-width: 150px;">Dodaj do znajomych</button>
                     </div>
-                    
                 </div>
                 <div id="profileMutualsSection" style="display: none; width: 100%;">
                     <div class="input-group">
@@ -619,8 +636,7 @@
             </div>
         </div>
     </div>
-    <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal">
+<div class="modal" id="confirmationModal">
         <div class="modal-content small" style="position: fixed; top: 12px; right: 12px; margin: 0; width: 340px;">
             <div class="modal-header" style="display:flex; align-items:center; justify-content: space-between;">
                 <h3 style="margin-bottom: 0;">Potwierdzenie</h3>
@@ -632,9 +648,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Secret Menu -->
-    <div id="secretMenu" class="modal" style="z-index: 10000;">
+<div id="secretMenu" class="modal" style="z-index: 10000;">
         <div class="modal-content" style="width: 95%; height: 95%; max-width: none; display: flex; flex-direction: column;">
             <div class="modal-header">
                 <h3>Sekretne Menu</h3>
@@ -642,7 +656,7 @@
             </div>
             <div class="modal-body" style="flex: 1; overflow-y: auto; padding: 20px;">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="logo.png" alt="Secret Parrot" style="width: 100px; height: 100px; animation: spin 2s linear infinite;">
+                    <img src="Assets/logo.png" alt="Secret Parrot" style="width: 100px; height: 100px; animation: spin 2s linear infinite;">
                     <h2>Witaj w tajnym gnieździe!</h2>
                 </div>
 
@@ -663,50 +677,54 @@
                                 <span class="toggle-slider"></span>
                             </div>
                         </label>
-                        <label class="toggle-switch" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-                            <span style="font-size: 1.1em;">HELL MODE</span>
-                            <div style="position: relative; width: 50px; height: 26px;">
-                                <input type="checkbox" id="hellMode" style="opacity: 0; width: 0; height: 0;">
-                                <span class="toggle-slider"></span>
-                            </div>
-                        </label>
-                        <div style="margin-top: 10px;">
-                            <button type="button" class="btn-secondary" id="secretLaunchFNAF1" style="width:100%;">
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button type="button" class="btn-secondary" id="hellModeBtn" style="width:50%;">
+                                Uruchom Hell Mode
+                            </button>
+                            <button type="button" class="btn-secondary" id="secretLaunchFNAF1" style="width:50%;">
                                 Uruchom Five Nights at Freddy's 1
                             </button>
                         </div>
                     </div>
                 </div>
-                
                  <div class="settings-section" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
                     <h4>JGS Team</h4>
                     <div id="debugInfo" style="background: #111; padding: 15px; border-radius: 8px; color: #0f0; font-family: monospace; margin-top: 10px; font-size: 0.9rem; line-height: 1.6; border: 1px solid #333;">
-                        <div><strong>System:</strong> Parrotnest V10 "Coffee Lake"</div>
+                        <div><strong>System:</strong> Parrotnest V13 "Parrot Egg"</div>
+                        <div><strong>Engine:</strong> Parrot Core 2.2</div>
                         <div><strong>Copyright:</strong> &copy; 2026 Parrotnest</div>
                         <div><strong>Made by:</strong> JGS team</div>
                     </div>
                     <div class="team-grid" style="display: flex; gap: 16px; justify-content: center; align-items: stretch; margin-top: 15px;">
                         <div class="team-card" style="flex: 0 1 180px; background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; text-align: center;">
-                            <img src="Igor.jpg" alt="Igor Kondraciuk" style="width: 100%; height: auto; display: block;">
+                            <img src="Assets/Igor.jpg" alt="Igor Kondraciuk" style="width: 100%; height: auto; display: block;">
                             <div style="padding: 10px; font-weight: 600;">Igor Kondraciuk</div>
-                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: RIPDB]<br> Kurna baza nie działa (włącza z program z folderu debug, pracuje na 25h zmiany).</div>
+                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: RIPDB]</div>
+                            <div style="padding: 0 10px 10px;">
+                                <a href="https://github.com/Flubi3604" target="_blank" style="display: inline-block; padding: 8px 16px; background: #333; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">GitHub</a>
+                            </div>
                         </div>
                         <div class="team-card team-card-center" style="flex: 0 1 210px; background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; text-align: center; transform: scale(1.06);">
-                            <img src="Adam.jpg" alt="Adam Hnatko" style="width: 100%; height: auto; display: block;">
+                            <img src="Assets/Adam.jpg" alt="Adam Hnatko" style="width: 100%; height: auto; display: block;">
                             <div style="padding: 10px; font-weight: 700;">Adam Hnatko</div>
-                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: URLOPIK]<br>Na świętach już się napracował, więc teraz czas, żeby reszta zespołu miała swoją chwilę chwały.</div>
+                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: URLOPIK]</div>
+                            <div style="padding: 0 10px 10px;">
+                                <a href="https://github.com/Hnato" target="_blank" style="display: inline-block; padding: 8px 16px; background: #333; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">GitHub</a>
+                            </div>
                         </div>
                         <div class="team-card" style="flex: 0 1 180px; background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; text-align: center;">
-                            <img src="Jakub.jpg" alt="Jakub Fedorowicz" style="width: 100%; height: auto; display: block;">
+                            <img src="Assets/Jakub.jpg" alt="Jakub Fedorowicz" style="width: 100%; height: auto; display: block;">
                             <div style="padding: 10px; font-weight: 600;">Jakub Fedorowicz</div>
-                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: FUCKOFF]<br>"Nie moja wina że wy odblokowaliście 25 godzin w ciągu doby"</div>
+                            <div style="padding: 0 10px 10px; font-size: 0.8rem; color: #0f0; font-family: 'Courier New', monospace;">[STATUS: FUCKOFF]</div>
+                            <div style="padding: 0 10px 10px;">
+                                <a href="https://github.com/John0G1thub" target="_blank" style="display: inline-block; padding: 8px 16px; background: #333; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">GitHub</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
     <style>
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .rainbow-mode { animation: rainbow 5s infinite; }
@@ -715,7 +733,6 @@
             100% { filter: hue-rotate(360deg); }
         }
         .spin-avatars .avatar, .spin-avatars .avatar-large, .spin-avatars .message-avatar { animation: spin 3s linear infinite; }
-        
         .toggle-slider {
             position: absolute;
             cursor: pointer;
@@ -728,9 +745,7 @@
             border-radius: 34px;
             border: 2px solid #555;
         }
-
-        /* Game Overlay (80% ekranu, wycentrowany, nad wszystkim) */
-        .game-overlay {
+.game-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
@@ -795,69 +810,22 @@
             transform: translateX(24px);
             background-color: white;
         }
-        
         .team-grid .team-card-center { margin: 0 6px; }
     </style>
-
-    <!-- Game Overlay -->
-    <div id="gameOverlay" class="game-overlay">
+<div id="gameOverlay" class="game-overlay">
         <div class="game-overlay-inner">
             <button class="modal-close" id="closeGameOverlay" title="Zamknij">×</button>
-            <iframe id="gameIframe" src="about:blank" allow="fullscreen; autoplay" allowfullscreen loading="eager" style="width:100%;height:100%;border:0;"></iframe>
+            <iframe id="gameIframe" src="about:blank" allow="fullscreen; autoplay" loading="eager" style="width:100%;height:100%;border:0;"></iframe>
         </div>
     </div>
 
     <div id="image-modal" class="image-modal">
         <span class="close-image-modal">&times;</span>
         <img class="image-modal-content" id="img-preview">
+        <video class="image-modal-content" id="video-preview" controls style="display:none;"></video>
         <div id="caption"></div>
     </div>
-    <script src="auth.js?v=10"></script>
-    <script type="module" src="app.js?v=40"></script>
-    <div id="accessibility-container" class="accessibility-container">
-        <div id="accessibility-popout" class="accessibility-popout" role="dialog" aria-labelledby="acc-title" aria-hidden="true">
-            <div class="acc-header">
-                <h2 id="acc-title">Ustawienia dostępności</h2>
-                <button id="close-acc-popout" aria-label="Zamknij panel">&times;</button>
-            </div>
-            <div class="acc-body">
-                <!-- Kontrast -->
-                <div class="acc-option">
-                    <label for="acc-contrast">Kontrast: <span id="contrast-val">100</span>%</label>
-                    <input type="range" id="acc-contrast" min="50" max="200" value="100" step="10">
-                </div>
-                <!-- Czcionka -->
-                <div class="acc-option">
-                    <label for="acc-font-size">Wielkość czcionki: <span id="font-size-val">100</span>%</label>
-                    <input type="range" id="acc-font-size" min="100" max="200" value="100" step="10">
-                </div>
-                <!-- Daltonizm -->
-                <div class="acc-option">
-                    <label for="acc-colorblind">Tryb daltonizmu:</label>
-                    <select id="acc-colorblind">
-                        <option value="none">Brak</option>
-                        <option value="protanopia">Protanopia (brak czerwonego)</option>
-                        <option value="deuteranopia">Deuteranopia (brak zielonego)</option>
-                        <option value="tritanopia">Tritanopia (brak niebieskiego)</option>
-                        <option value="achromatopsia">Achromatopsja (czarno-biały)</option>
-                    </select>
-                </div>
-                <!-- Animacje -->
-                <div class="acc-option toggle-option">
-                    <label>Animacje:</label>
-                    <label class="switch">
-                        <input type="checkbox" id="acc-animations" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <!-- Reset -->
-                <button id="acc-reset" class="acc-reset-btn">Przywróć domyślne</button>
-            </div>
-        </div>
-        <button id="accessibility-button" class="accessibility-button" aria-label="Ustawienia dostępności" aria-expanded="false" aria-controls="accessibility-popout">
-            <img src="accbt.png" alt="Dostępność">
-        </button>
-    </div>
-    <script src="accessibility.js?v=2"></script>
+    <script src="auth.js?v=9"></script>
+    <script type="module" src="app.js?v=39"></script>
 </body>
 </html>

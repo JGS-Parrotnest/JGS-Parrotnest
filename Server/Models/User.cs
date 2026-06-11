@@ -14,7 +14,7 @@ namespace ParrotnestServer.Models
         [Required]
         public string PasswordHash { get; set; } = string.Empty;
         public string? AvatarUrl { get; set; }
-        public int Status { get; set; } = 1; // 1=Active, 2=Away, 3=DND, 4=Invisible
+        public int Status { get; set; } = 1;
         public string Theme { get; set; } = "original";
         public string TextSize { get; set; } = "medium";
         public bool IsSimpleText { get; set; } = false;

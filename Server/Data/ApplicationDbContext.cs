@@ -12,6 +12,7 @@ namespace ParrotnestServer.Data
         public DbSet<Message> Messages { get; set; } = null!;
         public DbSet<Group> Groups { get; set; } = null!;
         public DbSet<Friendship> Friendships { get; set; } = null!;
+        public DbSet<UserRelation> UserRelations { get; set; } = null!;
         public DbSet<GroupMember> GroupMembers { get; set; } = null!;
         public DbSet<ProductionContent> ProductionContents { get; set; } = null!;
         public DbSet<GeneralChannelSettings> GeneralChannelSettings { get; set; } = null!;
@@ -41,6 +42,22 @@ namespace ParrotnestServer.Data
                 .IsUnique();
             modelBuilder.Entity<Friendship>()
                 .Property(f => f.Status)
+                .HasConversion<string>();
+            modelBuilder.Entity<UserRelation>()
+                .HasOne(r => r.Requester)
+                .WithMany()
+                .HasForeignKey(r => r.RequesterId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserRelation>()
+                .HasOne(r => r.TargetUser)
+                .WithMany()
+                .HasForeignKey(r => r.TargetUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserRelation>()
+                .HasIndex(r => new { r.RequesterId, r.TargetUserId })
+                .IsUnique();
+            modelBuilder.Entity<UserRelation>()
+                .Property(r => r.RelationType)
                 .HasConversion<string>();
             modelBuilder.Entity<Group>()
                 .HasOne(g => g.Owner)

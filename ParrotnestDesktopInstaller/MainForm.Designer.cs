@@ -183,7 +183,6 @@ namespace ParrotnestDesktopInstaller
             btnTestUrl.Enabled = false;
             pageOptions.Controls.Add(btnTestUrl);
             btnTestUrl.Click += async (s, e) => { await TestUrlAsync(); };
-            // Domyślnie pole nieaktywne, aktywuje je checkbox
             lblCustomUrl.Enabled = false;
             txtCustomUrl.Enabled = false;
             chkCustomUrl.CheckedChanged += (s, e) => {

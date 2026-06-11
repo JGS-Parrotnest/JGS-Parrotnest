@@ -7,6 +7,7 @@ namespace ParrotnestServer.Services
         Task UserDisconnected(string connectionId);
         Task<int[]> GetOnlineUsers();
         Task<bool> IsUserOnline(int userId);
+        Task<IEnumerable<string>> GetConnectionsForUser(int userId);
     }
     public class UserTracker : IUserTracker
     {
@@ -37,6 +38,11 @@ namespace ParrotnestServer.Services
         public Task<bool> IsUserOnline(int userId)
         {
             return Task.FromResult(_userConnections.ContainsKey(userId));
+        }
+        public Task<IEnumerable<string>> GetConnectionsForUser(int userId)
+        {
+            var conns = _connections.Where(kvp => kvp.Value == userId).Select(kvp => kvp.Key);
+            return Task.FromResult(conns);
         }
     }
 }

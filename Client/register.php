@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parrotnest - Rejestracja</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="Assets/logo.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile.css?v=1" media="(max-width: 768px)">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     </script>
     <div class="login-container">
         <div class="logo-area">
-            <img src="logo.png" alt="Parrotnest Logo" class="logo">
+            <img src="Assets/logo.png" alt="Parrotnest Logo" class="logo">
             <h1>Parrotnest</h1>
         </div>
         <div class="login-card">

@@ -8,10 +8,10 @@ using System.Windows.Forms;
 using System.Media;
 using System.Runtime.InteropServices;
 
-namespace ParrotnestDesktopInstaller;
-
-public partial class MainForm : Form
+namespace ParrotnestDesktopInstaller
 {
+    public partial class MainForm : Form
+    {
         [DllImport("winmm.dll")]
         private static extern long mciSendString(string strCommand, StringBuilder? strReturn, int iReturnLength, IntPtr hwndCallback);
 
@@ -109,7 +109,6 @@ public partial class MainForm : Form
         void BtnFinish_Click(object? sender, EventArgs e)
         {
             if (isRunning) return;
-            // Strona finalna: akcje po instalacji
             if (pageIndex == 3)
             {
                 if (chkCreateShortcut.Checked)
@@ -137,7 +136,6 @@ public partial class MainForm : Form
                 {
                     var shortcutPath = Path.Combine(desktop, "Parrotnest Desktop Client.lnk");
                     var script = $"$s=(New-Object -ComObject WScript.Shell).CreateShortcut('{shortcutPath}');$s.TargetPath='{targetExe}';$s.WorkingDirectory='{targetFolder}';$s.Save()";
-                    
                     var psi = new ProcessStartInfo("powershell.exe")
                     {
                         ArgumentList = { "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script },
@@ -197,12 +195,10 @@ public partial class MainForm : Form
         async Task RunPowershellSequenceAsync()
         {
             txtConsole.Clear();
-            RefreshPath(); // Odśwież PATH na start
+            RefreshPath();
 
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var system32 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "System32");
-
-            // Extract icon and animation script for nativefier
             try
             {
                 using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("ParrotnestDesktopInstaller.logo.ico"))
@@ -245,12 +241,9 @@ public partial class MainForm : Form
                 if (code != 0 && !c.Contains("Set-ExecutionPolicy"))
                 {
                     AppendConsole($"Zakończono z kodem {code}{Environment.NewLine}");
-                    // Próbujemy odświeżyć PATH po każdym kroku na wypadek instalacji globalnych modułów
                     RefreshPath();
                 }
             }
-
-            // Ustal adres docelowy dla nativefier (z opcjonalną zmianą na stronie opcji)
             string targetUrl = "https://pn.hnato.pl/";
             try
             {
@@ -274,23 +267,17 @@ public partial class MainForm : Form
             var finalCode = await ExecPowerShellAsync(finalCmd, appData);
             if (finalCode == 0)
             {
-                // Rename folder and exe to desired name
                 try
                 {
                     var sourceDir = Path.Combine(appData, "Parrotnest Desktop Client-win32-x64");
                     var targetDir = Path.Combine(appData, "Parrotnest Desktop Client");
-                    
                     if (Directory.Exists(targetDir)) Directory.Delete(targetDir, true);
                     if (Directory.Exists(sourceDir))
                     {
                         Directory.Move(sourceDir, targetDir);
-                        
-                        // Rename exe if it's not exactly as named
                         var oldExe = Path.Combine(targetDir, "Parrotnest Desktop Client.exe");
                         if (!File.Exists(oldExe))
                         {
-                             // Nativefier sometimes adds " " or uses the --name exactly
-                             // If it's already "Parrotnest Desktop Client.exe", we are good.
                         }
                     }
                 }
@@ -331,7 +318,6 @@ public partial class MainForm : Form
         {
             try
             {
-                // Reload PATH from User and Machine registries
                 var machinePath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine) ?? "";
                 var userPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User) ?? "";
                 var combinedPath = machinePath;
@@ -361,8 +347,6 @@ public partial class MainForm : Form
             psi.RedirectStandardError = true;
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
-
-            // Ensure the child process sees our updated PATH
             var currentPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Process);
             if (currentPath != null)
             {
@@ -444,7 +428,6 @@ public partial class MainForm : Form
                 }
                 else
                 {
-                    // Fallback to searching if name changed for some reason
                     foreach (var file in Directory.EnumerateFiles(appData, "Parrotnest Desktop Client.exe", SearchOption.AllDirectories))
                     {
                         var psi = new ProcessStartInfo(file) { UseShellExecute = true };
@@ -455,7 +438,7 @@ public partial class MainForm : Form
             }
             catch
             {
-                // Ignoruj błędy uruchamiania
             }
         }
     }
+}

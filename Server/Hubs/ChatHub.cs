@@ -36,8 +36,16 @@ namespace ParrotnestServer.Hubs
             if (userId.HasValue)
             {
                 await _userTracker.UserConnected(Context.ConnectionId, userId.Value);
-                // Ensure reliable targeting by adding to a user-specific group
                 await Groups.AddToGroupAsync(Context.ConnectionId, $"User_{userId.Value}");
+
+                var userGroups = await _context.GroupMembers
+                    .Where(gm => gm.UserId == userId.Value)
+                    .Select(gm => gm.GroupId)
+                    .ToListAsync();
+                foreach (var groupId in userGroups)
+                {
+                    await Groups.AddToGroupAsync(Context.ConnectionId, $"Group_{groupId}");
+                }
 
                 var user = await _context.Users.FindAsync(userId.Value);
                 if (user != null && user.BanUntil.HasValue && user.BanUntil.Value > DateTime.UtcNow)
@@ -46,11 +54,7 @@ namespace ParrotnestServer.Hubs
                     return;
                 }
                 int status = (user != null && user.Status != 4) ? user.Status : 0;
-                // If user is invisible (4), status broadcast is 0 (Offline)
-                // However, we might want to differentiate "Invisible" vs "Offline" for the user themselves?
-                // The broadcast goes to "All", so we must send 0 if invisible.
                 if (user != null && user.Status == 4) status = 0;
-                
                 await Clients.All.SendAsync("UserStatusChanged", userId.Value, status);
             }
 
@@ -140,6 +144,39 @@ namespace ParrotnestServer.Hubs
             {
                 throw new HubException($"Twoje konto jest zbanowane do {sender.BanUntil.Value.ToLocalTime():yyyy-MM-dd HH:mm}.");
             }
+            if (receiverId.HasValue)
+            {
+                var friendship = await _context.Friendships.FirstOrDefaultAsync(f =>
+                    f.Status == FriendshipStatus.Accepted &&
+                    ((f.RequesterId == userId.Value && f.AddresseeId == receiverId.Value) ||
+                     (f.RequesterId == receiverId.Value && f.AddresseeId == userId.Value)));
+                if (friendship == null)
+                {
+                    throw new HubException("Wiadomości prywatne są dostępne tylko dla znajomych.");
+                }
+
+                var myRelation = await _context.UserRelations.FirstOrDefaultAsync(r =>
+                    r.RequesterId == userId.Value && r.TargetUserId == receiverId.Value);
+                if (myRelation?.RelationType == UserRelationType.Blocked)
+                {
+                    throw new HubException("Najpierw odblokuj tego użytkownika.");
+                }
+                if (myRelation?.RelationType == UserRelationType.Ignored)
+                {
+                    throw new HubException("Najpierw cofnij ignorowanie tego użytkownika.");
+                }
+
+                var theirRelation = await _context.UserRelations.FirstOrDefaultAsync(r =>
+                    r.RequesterId == receiverId.Value && r.TargetUserId == userId.Value);
+                if (theirRelation?.RelationType == UserRelationType.Blocked)
+                {
+                    throw new HubException("Ten użytkownik Cię zablokował.");
+                }
+                if (theirRelation?.RelationType == UserRelationType.Ignored)
+                {
+                    throw new HubException("Ten użytkownik ignoruje Twoje wiadomości.");
+                }
+            }
 
             try 
             {
@@ -153,13 +190,10 @@ namespace ParrotnestServer.Hubs
                     ReplyToId = replyToId,
                     Timestamp = DateTime.UtcNow
                 };
-                
                 Log($"Adding message to DB. Content length: {msg.Content.Length}");
                 _context.Messages.Add(msg);
                 await _context.SaveChangesAsync();
                 Log($"Message saved. ID: {msg.Id}");
-
-                // Load ReplyTo info if exists
                 string? replyToSender = null;
                 string? replyToContent = null;
                 if (replyToId.HasValue)
@@ -202,7 +236,6 @@ namespace ParrotnestServer.Hubs
                 }
                 else
                 {
-                    // Global chat
                     await Clients.All.SendAsync("ReceiveMessage", response);
                 }
                 Log("Message broadcast completed.");
@@ -227,7 +260,6 @@ namespace ParrotnestServer.Hubs
                 Log("ReactToMessage failed: User ID not found.");
                 throw new HubException("Nie można zidentyfikować użytkownika.");
             }
-            
             var msg = await _context.Messages.FindAsync(messageId);
             if (msg == null) 
             {
@@ -243,14 +275,11 @@ namespace ParrotnestServer.Hubs
 
             try
             {
-                // Simple JSON manipulation
                 var reactions = new System.Collections.Generic.List<ReactionItem>();
                 if (!string.IsNullOrEmpty(msg.Reactions))
                 {
                     try { reactions = System.Text.Json.JsonSerializer.Deserialize<System.Collections.Generic.List<ReactionItem>>(msg.Reactions) ?? new(); } catch {}
                 }
-
-                // Toggle reaction
                 var existing = reactions.FirstOrDefault(r => r.u == userId.Value && r.e == emoji);
                 if (existing != null)
                 {
@@ -263,8 +292,6 @@ namespace ParrotnestServer.Hubs
 
                 msg.Reactions = System.Text.Json.JsonSerializer.Serialize(reactions);
                 await _context.SaveChangesAsync();
-
-                // Broadcast update
                 if (msg.GroupId.HasValue)
                 {
                     await Clients.Group($"Group_{msg.GroupId.Value}").SendAsync("MessageReactionUpdated", messageId, msg.Reactions);
@@ -276,7 +303,6 @@ namespace ParrotnestServer.Hubs
                 }
                 else
                 {
-                    // Global chat
                     await Clients.All.SendAsync("MessageReactionUpdated", messageId, msg.Reactions);
                 }
                 Log("ReactToMessage completed.");
@@ -288,54 +314,10 @@ namespace ParrotnestServer.Hubs
             }
         }
 
-        public async Task EditMessage(int messageId, string newContent)
-        {
-            var userId = GetUserId();
-            if (!userId.HasValue) throw new HubException("Nie zidentyfikowano użytkownika.");
-
-            var msg = await _context.Messages.FindAsync(messageId);
-            if (msg == null) throw new HubException("Wiadomość nie istnieje.");
-            if (msg.SenderId != userId.Value) throw new HubException("Możesz edytować tylko własne wiadomości.");
-
-            if (string.IsNullOrWhiteSpace(newContent)) throw new HubException("Treść wiadomości nie może być pusta.");
-
-            // Save history
-            var history = new System.Collections.Generic.List<string>();
-            if (!string.IsNullOrEmpty(msg.EditHistory))
-            {
-                try { history = System.Text.Json.JsonSerializer.Deserialize<System.Collections.Generic.List<string>>(msg.EditHistory) ?? new(); } catch { }
-            }
-            history.Add(msg.Content ?? string.Empty);
-
-            msg.Content = newContent;
-            msg.IsEdited = true;
-            msg.LastEditedAt = DateTime.UtcNow;
-            msg.EditHistory = System.Text.Json.JsonSerializer.Serialize(history);
-
-            await _context.SaveChangesAsync();
-
-            // Broadcast update
-            var update = new { Id = msg.Id, Content = msg.Content, IsEdited = msg.IsEdited, LastEditedAt = msg.LastEditedAt };
-            
-            if (msg.GroupId.HasValue)
-            {
-                await Clients.Group($"Group_{msg.GroupId.Value}").SendAsync("MessageEdited", update);
-            }
-            else if (msg.ReceiverId.HasValue)
-            {
-                await Clients.Group($"User_{msg.ReceiverId.Value}").SendAsync("MessageEdited", update);
-                await Clients.Group($"User_{msg.SenderId}").SendAsync("MessageEdited", update);
-            }
-            else
-            {
-                await Clients.All.SendAsync("MessageEdited", update);
-            }
-        }
-
         public class ReactionItem
         {
-            public int u { get; set; } // UserId
-            public string? e { get; set; } // Emoji
+            public int u { get; set; }
+            public string? e { get; set; }
         }
         public async Task JoinGroup(string groupName)
         {

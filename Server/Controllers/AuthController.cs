@@ -7,16 +7,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BCrypt.Net;
-namespace ParrotnestServer.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class AuthController(ApplicationDbContext context, IConfiguration configuration) : ControllerBase
+namespace ParrotnestServer.Controllers
 {
-    private readonly ApplicationDbContext _context = context;
-    private readonly IConfiguration _configuration = configuration;
-
-    [HttpPost("register")]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
+        public AuthController(ApplicationDbContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+        }
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             if (dto.Username.Length > 16)
@@ -107,3 +111,4 @@ public class AuthController(ApplicationDbContext context, IConfiguration configu
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
     }
+}

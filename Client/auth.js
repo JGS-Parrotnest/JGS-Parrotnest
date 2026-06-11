@@ -4,7 +4,6 @@
     if (window.location.protocol === 'file:') {
         serverBase = 'http://localhost:6069';
     } else {
-        // Use current origin for everything (0.0.0.0, localhost, or IP)
         serverBase = window.location.origin;
     }
     apiUrl = `${serverBase}/api`;
@@ -55,6 +54,21 @@ if (isLocal && storedBase && storedBase.includes(':6070')) {
 }
 
 function showNotification(message, type = 'success') {
+    // Skip empty messages
+    if (!message || String(message).trim() === '') {
+        console.warn('Suppressed empty notification');
+        return;
+    }
+    // Skip notifications about media errors, upload errors or ERR_ABORTED
+    const msgLower = String(message).toLowerCase();
+    if (msgLower.includes('err_aborted') || 
+        msgLower.includes('upload') || 
+        msgLower.includes('media') ||
+        msgLower.includes('net::')) {
+        console.warn('Suppressed notification:', message, type);
+        return;
+    }
+
     let container = document.getElementById('notification-container');
     if (!container) {
         container = document.createElement('div');
@@ -75,31 +89,40 @@ function showNotification(message, type = 'success') {
 }
 
 async function handleApiError(response, defaultMessage = 'Wystąpił błąd') {
-    const text = await response.text();
-    let message = text;
+    let text = '';
     try {
-        const json = JSON.parse(text);
-        message = json.message || json.error || json.title || defaultMessage;
-        if (json.errors) {
-             const details = Object.values(json.errors).flat().join(', ');
-             if (details) message += `: ${details}`;
+        text = await response.text();
+    } catch {
+        text = '';
+    }
+
+    let message = defaultMessage;
+    if (text && text.trim().length > 0) {
+        message = text;
+        try {
+            const json = JSON.parse(text);
+            message = json.message || json.error || json.title || defaultMessage;
+            if (json.errors) {
+                const details = Object.values(json.errors).flat().join(', ');
+                if (details) message += `: ${details}`;
+            }
+        } catch (e) {
+            if (text.trim().startsWith('<')) {
+                message = `${defaultMessage} (Status: ${response.status})`;
+            }
         }
-    } catch (e) {
-        if (text.trim().startsWith('<')) {
-            message = `${defaultMessage} (Status: ${response.status})`;
-        }
+    } else {
+        message = `${defaultMessage} (Status: ${response.status})`;
     }
     showNotification(message, 'error');
 }
 
 window.handleLogin = async (e) => {
-    // Zatrzymaj domyślne zachowanie formularza natychmiast
     if (e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    
-    console.log("Rozpoczynam logowanie..."); // Debug
+    console.log("Rozpoczynam logowanie...");
 
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
@@ -120,12 +143,11 @@ window.handleLogin = async (e) => {
             },
             body: JSON.stringify({ email, password })
         });
-        
-        console.log("Otrzymano odpowiedź z serwera", response.status); // Debug
+        console.log("Otrzymano odpowiedź z serwera", response.status);
 
         if (response.ok) {
             const data = await response.json();
-            console.log('Dane logowania:', data); // Debug
+            console.log('Dane logowania:', data);
 
             if (!data.token || !data.user) {
                 showNotification('Błąd serwera: brak tokena lub danych użytkownika.', 'error');
@@ -134,29 +156,17 @@ window.handleLogin = async (e) => {
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
-            
-            // Weryfikacja zapisu
             if (!localStorage.getItem('token')) {
                 showNotification('Błąd przeglądarki: localStorage nie działa.', 'error');
                 return false;
             }
 
-            // Inicjalizacja bezpiecznej sesji PHP (fingerprinting) - USUNIĘTO na życzenie użytkownika
-            // try {
-            //    await fetch('init_session.php', { method: 'POST' });
-            // } catch (e) {
-            //    console.warn('Nie udało się zainicjować sesji PHP', e);
-            // }
-
             showNotification('Zalogowano. Przekierowanie...', 'success');
-            
-            // Używamy replace aby nie można było cofnąć
             setTimeout(() => {
                 console.log('Redirecting to /index.php');
                 window.location.replace('/index.php');
             }, 500);
-            
-            return false; // Ważne dla onsubmit
+            return false;
         } else {
             await handleApiError(response, 'Logowanie nieudane');
             return false;
@@ -173,7 +183,6 @@ window.handleRegister = async (e) => {
         e.preventDefault();
         e.stopPropagation();
     }
-    
     console.log("Rozpoczynam rejestrację...");
 
     const username = document.getElementById('username').value;
