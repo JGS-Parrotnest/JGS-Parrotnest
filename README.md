@@ -87,5 +87,4 @@ Crafted with 💖 by the **JGS Team**:
 
 <div align="center"> 
 &copy; 2026 Parrotnest - JGS Team. <br>
-<i>Connect with your flock.</i>
 </div>
