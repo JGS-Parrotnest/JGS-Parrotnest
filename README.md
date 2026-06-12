@@ -1,7 +1,10 @@
 <div align="center">
 
-# 🦜 Parrotnest V13
-**Modern Real-Time Chat & Collaboration Platform**
+<img src="./Images/baner.png" alt="Parrotnest Banner" width="100%" />
+
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&pause=1000&color=1b5e20&center=true&vCenter=true&width=600&lines=🚀+Parrotnest+V13;🔥+Modern+Communication;🛠️+Built+by+JGS;🦜+Connect+With+Your+Flock" alt="Parrotnest Title" />
+
+**The Ultimate Real-Time Chat & Collaboration Platform**
 
 ![.NET](https://img.shields.io/badge/.NET-11.0-blueviolet?style=for-the-badge&logo=dotnet)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-SignalR-5C2D91?style=for-the-badge&logo=dotnet)
@@ -12,146 +15,85 @@
 
 ---
 
-## ✨ Overview
+## 🦜 Welcome to the Nest!
 
-**Parrotnest** is a modern communication platform designed for school communities, groups of friends, and local LAN networks.  
-Version **V13 "Parrot Egg Edition"** builds upon the previous release with focus on mobile user interface stability, client developer console security, and visual layout polish. 🦜🥚
+Tired of bloated, privacy-invasive communication tools? **Parrotnest** is your ultimate escape. Designed from the ground up for communities, schools, friend groups, and LAN networks, it delivers lightning-fast, ultra-secure, and deeply customizable real-time communication.
 
-The system consists of:
+Version **V13 "Parrot Egg Edition"** is our most refined experience yet—packed with seamless mobile navigation, enhanced security, and a beautiful UI. 
 
-- 🖥 **Windows Desktop Host** – a WinForms shell responsible for managing the server.
-- 🚀 **ASP.NET Core API** – a fast backend powered by SignalR for real-time communication.
-- 🌐 **Web Client** – a modern PHP + Vanilla JS interface with full responsiveness.
-- 📦 **Desktop Installer** – a dedicated installer for easy deployment.
+<div align="center">
+  <img src="./Images/Chat.png" alt="Parrotnest Chat UI" width="80%" />
+</div>
 
 ---
 
-## 📜 Changelog
+## 🔥 Why Choose Parrotnest?
 
-### 🥚 V13.0 - Parrot Egg Edition (Latest)
+### 💬 Unmatched Communication
+- **Global & Private:** Jump into the lively Global Channel or keep it intimate with secure Private Messages and custom Groups.
+- **Rich Media Magic:** Share images, videos, reactions, and replies effortlessly. 
+- **Oops? Edited!:** Fix your typos gracefully. Edit messages within a 15-minute window with a transparent history.
 
-#### 📱 UI & Mobile Refinements
-- **Mobile Sidebar Navigation:** Fixed navigation issues in mobile view to allow intuitive transitions to the channels, groups, and friends lists.
-- **Header & Layout Polish:** Resized the `conversation-sidebar-header` to prevent text overflow, repositioned `conversationSidebarName`, and corrected avatar alignments.
-- **General Chat Avatar:** Fixed a bug where the global chat-header avatar failed to render on desktop view.
+### 🎨 Your Nest, Your Rules
+Don't settle for boring defaults. Express yourself!
+- **Stunning Themes:** Choose from Original, Dark, Classic, Neon, Forest, or High Contrast.
+- **Adaptive UI:** Dynamic text sizes and a Plain Text mode for ultimate focus.
+- **Custom Sounds:** Total control over your notifications. 
 
-#### 🔒 Security & Client Console
-- **Console Log Suppression:** Added automatic hiding of `console.log`, `console.warn`, and `console.info` for non-admin client accounts in production environments.
+### 📱 Perfect on Mobile
+Stay connected wherever you roam. Our V13 update brings unparalleled polish to the mobile experience, making navigation between channels, groups, and friends silky smooth.
 
----
-
-### 🦜 V12.0 - Parrot Cove Edition
-
-#### 🚀 Technology Migration
-- **.NET 11 Update:** Migrated all projects to the latest .NET 11 framework for improved performance and security.
-- **C# 15 Support:** Refactored codebase to utilize modern C# 15 features, including primary constructors and enhanced params collections.
-- **SDK Pinning:** Added `global.json` to ensure consistent build environments.
-
-#### 💬 Chat Improvements
-- **Message Editing:** Users can now edit their own messages within 15 minutes of sending.
-- **Edit History:** Full transparency with stored edit history and "edited" labels.
-- **Security:** Enhanced XSS protection and SQL injection prevention in message processing.
-
-#### 🛠 Fixes & Features
-- **Fixed Installer Download:** Resolved a critical issue preventing the download of the desktop client.
-- **New App Icon:** Refreshed application icon with proper resource embedding across all platforms.
-- **Enhanced Code Analysis:** Full build with enabled .NET analyzers to ensure code quality.
+<div align="center">
+  <img src="./Images/mobileversion.png" alt="Mobile Version" height="400" />
+</div>
 
 ---
 
-## 🚀 Key Features
+## 🖥️ Powerful Yet Lightweight
 
-### 💬 Communication
-- **Global Channel** – a shared space for all users.
-- **Private Messages** – secure 1-on-1 chat.
-- **Groups** – create custom rooms, invite friends, and manage members.
-- **Rich Messages** – support for images, videos, replies, and emoji reactions.
-- **Message Editing** – Edit your mistakes before anyone notices!
+Parrotnest isn't just a web app. It comes with a robust **Windows Desktop Host** that makes managing your server a breeze!
 
-### 🎨 Personalization & UI
-- **Multiple Themes** – choose from: *Original, Dark, Classic, Neon, Forest,* or *High Contrast*.
-- **Dynamic Text Size** – from small to Extra Large.
-- **Plain Text Mode** – for users who prefer minimalism.
-- **Notifications** – full volume control and customizable sounds.
+<div align="center">
+  <img src="./Images/Parrotnest%20Server%20Menager.png" alt="Server Manager" width="80%" />
+</div>
+
+- 🚀 **Lightning Fast API:** Powered by ASP.NET Core & SignalR.
+- 🌐 **Modern Client:** Responsive PHP + Vanilla JS interface.
+- 📦 **Easy Deployment:** Dedicated one-click Desktop Installer.
 
 ---
 
-## 💻 System Requirements
+## ⚙️ How to Get Started
 
-### Server (Host)
-- **OS:** Windows 10 (1809+) or Windows 11.
-- **Runtime:** .NET 11 Runtime (Desktop).
-- **Disk Space:** ~200MB for application + database growth.
+It's easier than ever to set up your own Parrotnest:
 
-### Client (Web)
-- **Browser:** Modern browser (Chrome, Firefox, Edge, Safari).
-- **Server:** PHP 8.1+ (if hosting separately).
+1. **Download:** Grab the latest `ParrotnestInstaller.exe` from our releases.
+2. **Install:** Let our dedicated installer set everything up in seconds.
+3. **Launch:** Open the **Parrotnest Server Host** and hit Start.
+4. **Invite:** Share your address and let the flock gather!
 
 ---
 
-## 📥 Installation Instructions
+## 🛠 For the Geeks (Tech Stack)
 
-1. **Download:** Get the latest `ParrotnestInstaller.exe` from the download page.
-2. **Install:** Run the installer and follow the on-screen instructions.
-3. **Launch:** Open the **Parrotnest Server Host** from your desktop.
-4. **Configure:** Set your desired port and server settings.
-5. **Connect:** Share the server address with your friends and start chatting!
+Built with passion and the latest technologies:
+- **Backend:** .NET 11.0, ASP.NET Core, SignalR, Entity Framework Core (SQLite)
+- **Frontend:** PHP, Vanilla JS, Custom `CssGen 4.1` tool
 
 ---
 
-## 🛠 Technology Stack
+## 👑 The Masterminds (JGS Team)
 
-- **Backend:** .NET 11.0, ASP.NET Core, SignalR, Entity Framework Core (SQLite).
-- **Frontend:** PHP, Vanilla JavaScript, CSS.
-- **Tools:**
-  - `CssGen` – custom C# CSS generator.
-  - `ParrotnestDesktopInstaller` – dedicated installer project.
+<div align="center">
+  <img src="./Images/logo.png" alt="JGS Logo" width="100" />
+</div>
 
----
-
-## 📂 Project Structure
-
-```text
-Parrotnest/
-├─ Client/                  # Frontend (PHP, JS, CSS, Assets)
-│  ├─ APP/                  # Crazy desktop app thingymabom/thingamajig
-│  ├─ DOOM/                 # Embedded Doom (Hell Mode)
-│  ├─ UrUrUr/               # FNAF 1 Launcher
-│  ├─ CssGen/               # CSS Generator (C#)
-│  ├─ notificationsounds/   # Custom notification sounds
-│  └─ uploads/              # User files (avatars, images, videos)
-├─ Server/                  # Backend C# (ASP.NET Core + WinForms)
-│  ├─ Controllers/          # API logic
-│  ├─ Hubs/                 # SignalR communication
-│  └─ Models/               # EF Core database models
-└─ ParrotnestDesktopInstaller/ # Desktop installer project
-```
-
----
-
-## ⚙️ Running (Development)
-
-1. **Requirements:** Windows 10/11, .NET SDK (net11.0).
-2. **Build:** 
-   ```bash
-   dotnet build .\Server\ParrotnestServer.csproj -c Debug
-   ```
-3. **Start:** Run `ParrotnestServer.exe`.
-   - Click **"Start Server"** to launch the backend.
-   - Click **"Open App"** to open the login panel.
-
----
-
-## 👑 JGS Team (Creators)
-
-The project is passionately developed by the **JGS Team**:
-
+Crafted with 💖 by the **JGS Team**:
 - 👨‍💻 Adam Hnatko ("Hnato")
 - 🛠 Igor Kondraciuk ("Flubi3604")
 - 🐍 Jakub Fedorowicz ("John0G1thub")
 
----
-
 <div align="center"> 
-&copy; 2026 Parrotnest - JGS Team.
+&copy; 2026 Parrotnest - JGS Team. <br>
+<i>Connect with your flock.</i>
 </div>
