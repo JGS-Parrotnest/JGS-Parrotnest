@@ -19,7 +19,7 @@
 
 Tired of bloated, privacy-invasive communication tools? **Parrotnest** is your ultimate escape. Designed from the ground up for communities, schools, friend groups, and LAN networks, it delivers lightning-fast, ultra-secure, and deeply customizable real-time communication.
 
-Version **V13 "Parrot Egg Edition"** is our most refined experience yet—packed with seamless mobile navigation, enhanced security, and a beautiful UI. 
+Version **V13 "Parrot Egg Edition"** is our most refined experience yet, packed with seamless mobile navigation, enhanced security, and a beautiful UI. 
 
 <div align="center">
   <img src="./Images/Chat.png" alt="Parrotnest Chat UI" width="80%" />
@@ -42,10 +42,6 @@ Don't settle for boring defaults. Express yourself!
 
 ### 📱 Perfect on Mobile
 Stay connected wherever you roam. Our V13 update brings unparalleled polish to the mobile experience, making navigation between channels, groups, and friends silky smooth.
-
-<div align="center">
-  <img src="./Images/mobileversion.png" alt="Mobile Version" height="400" />
-</div>
 
 ---
 
@@ -83,10 +79,6 @@ Built with passion and the latest technologies:
 ---
 
 ## 👑 The Masterminds (JGS Team)
-
-<div align="center">
-  <img src="./Images/logo.png" alt="JGS Logo" width="100" />
-</div>
 
 Crafted with 💖 by the **JGS Team**:
 - 👨‍💻 Adam Hnatko ("Hnato")
